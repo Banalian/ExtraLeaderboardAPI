@@ -31,4 +31,5 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.EXTRALEADERBOARDTOKEN }}
         source: "ExtraLeaderboardAPI_EAR/target/*.ear"
-        target: ${{ format('/home/{0}',secrets.USERNAME) }}
+        target: "/opt/wildfly/standalone/deployments"
+        strip_components: 2
