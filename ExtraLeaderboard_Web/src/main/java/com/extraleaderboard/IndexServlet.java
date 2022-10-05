@@ -15,5 +15,6 @@ public class IndexServlet extends HttpServlet {
             throws ServletException, IOException {
 
         response.getWriter().println("Extra Leaderboard API. Contact the administrator for more information.");
+        response.getWriter().println("This test was pushed thanks to github actions.");
     }
 }
