@@ -1,5 +1,6 @@
 package com.extraleaderboard.logic;
 
+import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
 import com.extraleaderboard.model.nadeo.NadeoToken;
 import com.extraleaderboard.model.ubisoft.UbisoftTicket;
@@ -29,7 +30,7 @@ public class TokenTestAuthFlow {
         String ubisoftTicket = getUbisoftTicket().getTicket();
 
         // Second step : get Nadeo token
-        return getNadeoToken(ubisoftTicket, NadeoLiveServices.getAudienceName());
+        return getNadeoToken(ubisoftTicket, Audience.NADEO_LIVE_SERVICES);
     }
 
 
@@ -46,18 +47,18 @@ public class TokenTestAuthFlow {
                 .get(UbisoftTicket.class);
     }
 
-    private NadeoToken getNadeoToken(final String ubisoftTicket, final String Audience) {
+    private NadeoToken getNadeoToken(final String ubisoftTicket, final Audience audience) {
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("https://prod.trackmania.core.nadeo.online/v2/authentication/token/ubiservices");
 
         // create json body containing the audience
-        JsonNode audience = new ObjectMapper().createObjectNode().put("audience", Audience);
+        JsonNode audienceJson = new ObjectMapper().createObjectNode().put("audience", audience.getAudience());
 
         return target.request()
                 .header("Content-Type", "application/json")
                 .header("User-Agent", "Banalian API Test : Banalian#0584 on Discord")
                 .header("Authorization", "ubi_v1 t=" + ubisoftTicket)
-                .post(Entity.json(audience), NadeoToken.class);
+                .post(Entity.json(audienceJson), NadeoToken.class);
     }
 
     private String getBase64EncodedCredentials() {
