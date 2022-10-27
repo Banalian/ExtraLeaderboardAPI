@@ -1,6 +1,6 @@
 package com.extraleaderboard.model.nadeo;
 
-public enum NadeoLiveServices implements INadeoService {
+public enum NadeoLiveServices {
 
     /**
      * Get the leaderboard for a specific map.
@@ -17,38 +17,23 @@ public enum NadeoLiveServices implements INadeoService {
      *     </ul>
      * </p>
      */
-    MAP_LEADERBOARD("/api/token/leaderboard/group/Personal_Best/map/{mapId}/top", Object.class),
+    MAP_LEADERBOARD("/api/token/leaderboard/group/Personal_Best/map/{mapId}/top"),
 
-    SURROUND("/api/token/leaderboard/group/Personal_Best/map/{mapid}/surround/{above}/{below}", Object.class);
-
+    SURROUND("/api/token/leaderboard/group/Personal_Best/map/{mapid}/surround/{above}/{below}");
 
     private static final String BASE_URL = "https://live-services.trackmania.nadeo.live";
 
     private static final Audience AUDIENCE = Audience.NADEO_LIVE_SERVICES;
-
-    private final Class responseClass;
-
     private final String url;
 
-    NadeoLiveServices(String url, Class responseClass) {
+    NadeoLiveServices(String url) {
         this.url = url;
-        this.responseClass = responseClass;
     }
 
     public String getUrl() {
         return BASE_URL + url;
     }
 
-    public static String getAudienceName() {
-        return AUDIENCE.getAudience();
-    }
-
-    @Override
-    public Class getResponseClass() {
-        return responseClass;
-    }
-
-    @Override
     public Audience getAudience() {
         return AUDIENCE;
     }
