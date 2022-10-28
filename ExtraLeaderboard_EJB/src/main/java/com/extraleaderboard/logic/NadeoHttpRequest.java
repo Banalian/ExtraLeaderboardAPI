@@ -41,31 +41,66 @@ public class NadeoHttpRequest {
         this.token = TokenFactory.getToken(audience);
     }
 
+    /**
+     * Set the url of the endpoint to call
+     *
+     * @param url url of the endpoint to call
+     * @return the current instance
+     */
     public NadeoHttpRequest setUrl(String url) {
         this.url = url;
         return this;
     }
 
+    /**
+     * Set the parameters to send with the request
+     *
+     * @param key key of the parameter
+     * @param value value of the parameter
+     * @return the current instance
+     */
     public NadeoHttpRequest setParameter(String key, String value) {
         this.parameters.put(key, value);
         return this;
     }
 
+    /**
+     * Remove a parameter from the request
+     * @param key key of the parameter to remove
+     * @return the current instance
+     */
     public NadeoHttpRequest removeParameter(String key) {
         this.parameters.remove(key);
         return this;
     }
 
+    /**
+     * Get a parameter from the request
+     *
+     * @param key key of the parameter to get
+     * @return the value of the parameter
+     */
     public String getParameter(String key) {
         return this.parameters.get(key);
     }
 
+    /**
+     * Clear all the parameters
+     *
+     * @return the current instance
+     */
     public NadeoHttpRequest clearParameters() {
         this.parameters.clear();
         return this;
     }
 
-    public Object execute() throws NadeoAPIResponseException {
+    /**
+     * Call the endpoint with the given parameters
+     *
+     * @return the response of the request as an {@link ObjectNode}
+     * @throws NadeoAPIResponseException if the response is not a SUCCESS
+     */
+    public ObjectNode execute() throws NadeoAPIResponseException {
         Client client = ClientBuilder.newClient();
         WebTarget target = client
                 .target(this.url)
