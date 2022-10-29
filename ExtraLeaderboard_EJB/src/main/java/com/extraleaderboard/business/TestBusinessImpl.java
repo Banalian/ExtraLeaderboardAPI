@@ -1,5 +1,7 @@
 package com.extraleaderboard.business;
 
+import com.extraleaderboard.logic.token.TokenFactory;
+import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoToken;
 
 import javax.ejb.Stateless;
@@ -13,9 +15,7 @@ public class TestBusinessImpl implements TestBusiness {
     }
 
     @Override
-    public NadeoToken getToken() {
-        NadeoToken token = new NadeoToken();
-        token.setAccessToken("test");
-        return token;
+    public NadeoToken getToken(Audience audience) {
+        return TokenFactory.getToken(audience);
     }
 }

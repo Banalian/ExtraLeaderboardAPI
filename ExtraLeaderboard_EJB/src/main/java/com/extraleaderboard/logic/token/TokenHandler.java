@@ -10,10 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.MediaType;
 import java.util.Base64;
 import java.util.EnumMap;
 
@@ -27,12 +25,12 @@ public class TokenHandler {
     /**
      * Email of the ubisoft account used to get the token
      */
-    private static final String UBISOFT_MAIL = System.getenv("UBISOFT_EMAIL");
+    private static final String UBISOFT_MAIL = System.getProperty("ubisoft.email");
 
     /**
      * Password of the ubisoft account used to get the token
      */
-    private static final String UBISOFT_PASSWORD = System.getenv("UBISOFT_PASSWORD");
+    private static final String UBISOFT_PASSWORD = System.getProperty("ubisoft.password");
 
     /**
      * Authorization header name used to get the token
@@ -152,15 +150,15 @@ public class TokenHandler {
     private UbisoftTicket getUbisoftTicket() {
         Client client = ClientBuilder.newClient();
         WebTarget target = client
-                .target("https://public-ubiservices.ubi.com/")
+                .target("https://public-ubiservices.ubi.com")
                 .path("v3/profiles/sessions");
 
-        return target.request()
+        return target.request(MediaType.APPLICATION_JSON)
                 .header("Content-Type", "application/json")
                 .header("Ubi-AppId", "86263886-327a-4328-ac69-527f0d20a237")
                 .header("User-Agent", "Banalian API Test : Banalian#0584 on Discord")
                 .header(AUTHORIZATION, "Basic " + getBase64EncodedCredentials())
-                .get(UbisoftTicket.class);
+                .post(Entity.json(""), UbisoftTicket.class);
     }
 
     /**
