@@ -1,19 +1,21 @@
 package com.extraleaderboard.logic.token;
 
-import com.extraleaderboard.logic.exception.NadeoRuntimeException;
+import com.extraleaderboard.model.TokenStorage;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoToken;
-import com.extraleaderboard.model.nadeo.NadeoTokenPayload;
 import com.extraleaderboard.model.ubisoft.UbisoftTicket;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.client.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import java.util.Base64;
-import java.util.EnumMap;
+import java.util.Timer;
 
 /**
  * Class in charge of creating tokens and handling them/renewing them
@@ -48,9 +50,9 @@ public class TokenHandler {
     public static final String NADEO_AUTH_NAME = "nadeo_v1";
 
     /**
-     * All the tokens handled by the handler
+     * Client used to call the different APIs
      */
-    private final EnumMap<Audience, NadeoToken> nadeoTokens = new EnumMap<>(Audience.class);
+    private final Client client = ClientBuilder.newClient();
 
     /**
      * Get the {@link NadeoToken} for the given audience
@@ -59,72 +61,20 @@ public class TokenHandler {
      * @return the {@link NadeoToken} for the given audience
      */
     public NadeoToken getNadeoToken(Audience audience) {
-        if (!nadeoTokens.containsKey(audience)) {
+        if (!TokenStorage.hasToken(audience)) {
             LOGGER.info("No token found for audience {}, creating a new one", audience);
-            nadeoTokens.put(audience, createNewToken(audience));
+            TokenStorage.setToken(audience, createNewToken(audience));
+
+            LOGGER.info("Token created for audience {}, scheduling the refresh task", audience);
+            Timer timer = new Timer();
+            // 55 min
+            long delay = (long) 55 * (long) 60 * 1000;
+
+            timer.schedule(new TokenRefreshTask(audience), delay, delay);
+            LOGGER.info("Refresh task scheduled for audience {}", audience);
         }
 
-        // get the current token
-        NadeoToken currentToken = nadeoTokens.get(audience);
-
-        //TODO : Refactor to use a java timer and timer task
-
-        // In 55 minutes, the token will expire, so we renew it
-        // Check if the token is still valid
-        // decode the payload into a NadeoTokenPayload object
-        NadeoTokenPayload nadeoTokenPayload = decodePayload(currentToken);
-
-        // if the token is valid but will expire in less than 5 minutes, we renew it
-        if (nadeoTokenPayload.getExp() - System.currentTimeMillis() / 1000 < 3300) {
-            LOGGER.info("Token for audience {} will expire in less than 5 minutes, renewing it", audience);
-            nadeoTokens.put(audience, refreshNadeoToken(audience));
-        } else if (nadeoTokenPayload.getExp() < System.currentTimeMillis() / 1000) {
-            // if the token is expired, get a new one
-            LOGGER.info("Token for audience {} is expired, creating a new one", audience);
-            nadeoTokens.put(audience, createNewToken(audience));
-        }
-
-        return nadeoTokens.get(audience);
-    }
-
-    /**
-     * Refresh the {@link NadeoToken} for the given audience
-     *
-     * @param audience the {@link Audience} for which we want to refresh the token
-     * @return the refreshed {@link NadeoToken}
-     */
-    private NadeoToken refreshNadeoToken(final Audience audience) {
-        // call the refresh endpoint with the refresh token at Nadeo
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client
-                .target("https://prod.trackmania.core.nadeo.online/")
-                .path("v2/authentication/token/refresh");
-
-        return target
-                .request()
-                .header(AUTHORIZATION, NADEO_AUTH_NAME + " t=" + nadeoTokens.get(audience).getRefreshToken())
-                .post(Entity.json(""), NadeoToken.class);
-
-    }
-
-    /**
-     * Decode the payload of the given {@link NadeoToken}, to access its content
-     *
-     * @param payload the {@link NadeoToken} to decode
-     * @return the decoded {@link NadeoTokenPayload}
-     */
-    private NadeoTokenPayload decodePayload(NadeoToken payload) {
-        // get the payload of the token (the part after the first dot)
-        String payloadString = payload.getAccessToken().split("\\.")[1];
-        // decode the payload
-        byte[] decodedBytes = Base64.getDecoder().decode(payloadString);
-        String decodedPayload = new String(decodedBytes);
-        // parse the payload into a NadeoTokenPayload object
-        try {
-            return new ObjectMapper().readValue(decodedPayload, NadeoTokenPayload.class);
-        } catch (Exception e) {
-            throw new NadeoRuntimeException("Error while parsing the payload of the token", e);
-        }
+        return TokenStorage.getToken(audience);
     }
 
     /**
@@ -148,7 +98,6 @@ public class TokenHandler {
      * @return the {@link UbisoftTicket}
      */
     private UbisoftTicket getUbisoftTicket() {
-        Client client = ClientBuilder.newClient();
         WebTarget target = client
                 .target("https://public-ubiservices.ubi.com")
                 .path("v3/profiles/sessions");
@@ -169,7 +118,6 @@ public class TokenHandler {
      * @return the {@link NadeoToken}
      */
     private NadeoToken getNadeoToken(final String ubisoftTicket, final Audience audience) {
-        Client client = ClientBuilder.newClient();
         WebTarget target = client
                 .target("https://prod.trackmania.core.nadeo.online/")
                 .path("v2/authentication/token/ubiservices");
