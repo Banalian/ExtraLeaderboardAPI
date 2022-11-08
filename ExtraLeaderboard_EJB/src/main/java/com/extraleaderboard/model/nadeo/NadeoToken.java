@@ -17,8 +17,7 @@ public class NadeoToken implements Serializable {
     private String accessToken;
     @JsonProperty("refreshToken")
     private String refreshToken;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<>();
+
     private static final long serialVersionUID = -2171395442889933520L;
 
     @JsonProperty("accessToken")
@@ -41,22 +40,11 @@ public class NadeoToken implements Serializable {
         this.refreshToken = refreshToken;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
     @Override
     public String toString() {
         return "NadeoToken{" +
                 "accessToken='" + accessToken + '\'' +
                 ", refreshToken='" + refreshToken + '\'' +
-                ", additionalProperties=" + additionalProperties +
                 '}';
     }
 }
