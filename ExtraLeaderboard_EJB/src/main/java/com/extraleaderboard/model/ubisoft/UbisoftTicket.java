@@ -44,10 +44,9 @@ public class UbisoftTicket implements Serializable
     private String sessionKey;
     @JsonProperty("rememberMeTicket")
     private Object rememberMeTicket;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<>();
+
     @Serial
-    private final static long serialVersionUID = -8414733067625911466L;
+    private static final long serialVersionUID = -8414733067625911466L;
 
     @JsonProperty("platformType")
     public String getPlatformType() {
@@ -199,16 +198,6 @@ public class UbisoftTicket implements Serializable
         this.rememberMeTicket = rememberMeTicket;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
     @Override
     public String toString() {
         return "UbisoftTicket{" +
@@ -227,7 +216,6 @@ public class UbisoftTicket implements Serializable
                 ", sessionId='" + sessionId + '\'' +
                 ", sessionKey='" + sessionKey + '\'' +
                 ", rememberMeTicket=" + rememberMeTicket +
-                ", additionalProperties=" + additionalProperties +
                 '}';
     }
 }
