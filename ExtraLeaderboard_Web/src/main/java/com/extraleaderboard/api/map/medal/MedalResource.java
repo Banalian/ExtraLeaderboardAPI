@@ -1,5 +1,8 @@
 package com.extraleaderboard.api.map.medal;
 
+import com.extraleaderboard.business.interfaces.map.medal.MedalBusinessLocal;
+
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,6 +12,12 @@ import javax.ws.rs.Path;
  */
 public class MedalResource {
 
+    @EJB
+    private MedalBusinessLocal medalBusiness;
+
+    /**
+     * Map id, needed to get the right information
+     */
     private final String mapId;
 
     @Inject
@@ -22,8 +31,8 @@ public class MedalResource {
      * @return all medals time and hypothetical positions in the leaderboard of the map
      */
     @GET
-    public String getAllMedals() {
-        return "All medals for map " + mapId;
+    public Object getAllMedals() {
+        return medalBusiness.getAllMedals(mapId);
     }
 
     /**
@@ -33,8 +42,8 @@ public class MedalResource {
      */
     @GET
     @Path("/at")
-    public String atMedal() {
-        return "Medal at " + mapId;
+    public Object atMedal() {
+        return medalBusiness.getAtMedal(mapId);
     }
 
     /**
@@ -44,8 +53,8 @@ public class MedalResource {
      */
     @GET
     @Path("/gold")
-    public String goldMedal() {
-        return "Gold medal for map " + mapId;
+    public Object goldMedal() {
+        return medalBusiness.getGoldMedal(mapId);
     }
 
     /**
@@ -55,8 +64,8 @@ public class MedalResource {
      */
     @GET
     @Path("/silver")
-    public String silverMedal() {
-        return "Silver medal for map " + mapId;
+    public Object silverMedal() {
+        return medalBusiness.getSilverMedal(mapId);
     }
 
     /**
@@ -66,8 +75,8 @@ public class MedalResource {
      */
     @GET
     @Path("/bronze")
-    public String bronzeMedal() {
-        return "Bronze medal for map " + mapId;
+    public Object bronzeMedal() {
+        return medalBusiness.getBronzeMedal(mapId);
     }
 
 }

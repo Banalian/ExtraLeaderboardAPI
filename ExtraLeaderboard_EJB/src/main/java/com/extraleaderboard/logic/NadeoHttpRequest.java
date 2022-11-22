@@ -37,7 +37,7 @@ public class NadeoHttpRequest {
     /**
      * Parameters to send with the request
      */
-    private Map<String, String> parameters;
+    private Map<String, Object> parameters;
 
     /**
      * Class that is expected to be returned
@@ -77,7 +77,7 @@ public class NadeoHttpRequest {
      * @param value value of the parameter
      * @return the current instance
      */
-    public NadeoHttpRequest setParameter(String key, String value) {
+    public NadeoHttpRequest setParameter(String key, Object value) {
         this.parameters.put(key, value);
         return this;
     }
@@ -99,7 +99,7 @@ public class NadeoHttpRequest {
      * @param key key of the parameter to get
      * @return the value of the parameter
      */
-    public String getParameter(String key) {
+    public Object getParameter(String key) {
         return this.parameters.get(key);
     }
 
@@ -124,7 +124,7 @@ public class NadeoHttpRequest {
         WebTarget target = client
                 .target(this.url)
                 .queryParam("Authorization", "nadeo_v1 t=" + this.token.getAccessToken());
-        for (Map.Entry<String, String> entry : this.parameters.entrySet()) {
+        for (Map.Entry<String, Object> entry : this.parameters.entrySet()) {
             target = target.queryParam(entry.getKey(), entry.getValue());
         }
 

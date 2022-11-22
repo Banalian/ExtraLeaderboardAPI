@@ -1,16 +1,27 @@
 package com.extraleaderboard.api.map;
 
 import com.extraleaderboard.api.map.medal.MedalResource;
+import com.extraleaderboard.api.map.postime.PositionResource;
+import com.extraleaderboard.api.map.postime.TimeResource;
 import com.extraleaderboard.api.map.record.RecordResource;
+import com.extraleaderboard.business.interfaces.map.MapBusinessLocal;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
 /**
  * Map resource, redirect to other resources related to leaderboard of this map
  */
 public class MapResource {
 
+    @EJB
+    private MapBusinessLocal mapBusiness;
+
+    /**
+     * Map id, needed to get the right information
+     */
     private final String mapId;
 
     @Inject
@@ -29,8 +40,8 @@ public class MapResource {
      * @return MapInfo
      */
     @GET
-    public String allInfo() {
-        return "Info for map " + mapId;
+    public Object allInfo() {
+        return mapBusiness.getAllMapInfo(mapId);
     }
 
     /**
@@ -40,16 +51,31 @@ public class MapResource {
      */
     @GET
     @Path("/playercount")
-    public String playerInfo() {
-        return "Player info for map " + mapId;
+    public Object playerInfo() {
+        return mapBusiness.getPlayerCount(mapId);
     }
 
     /**
      * Return multiple records of this map leaderboard based of multiple parameters
-     *
      */
     @Path("/records")
     public RecordResource records() {
         return new RecordResource(mapId);
+    }
+
+    /**
+     * Return record(s) based on the time requested
+     */
+    @Path("/position")
+    public TimeResource time() {
+        return new TimeResource(mapId);
+    }
+
+    /**
+     * Return record(s) based on the position requested
+     */
+    @Path("/time")
+    public PositionResource position() {
+        return new PositionResource(mapId);
     }
 }
