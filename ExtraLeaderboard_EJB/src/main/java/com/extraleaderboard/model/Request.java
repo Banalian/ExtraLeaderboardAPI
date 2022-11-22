@@ -1,3 +1,4 @@
+
 package com.extraleaderboard.model;
 
 import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
@@ -32,7 +33,9 @@ public class Request implements Cloneable {
      * Represents the expected response type corresponding to the current Request
      */
     public enum ResponseType {
-        TIME, POSITION, PERCENTAGE,
+        TIME,
+        POSITION,
+        MAP,
     }
 
     private String endPoint;
