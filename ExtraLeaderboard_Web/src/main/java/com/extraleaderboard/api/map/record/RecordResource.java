@@ -1,13 +1,23 @@
 package com.extraleaderboard.api.map.record;
 
+import com.extraleaderboard.business.interfaces.map.record.RecordBusinessLocal;
+import com.extraleaderboard.model.trackmania.Medal;
+
+import javax.ejb.EJB;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.QueryParam;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Record resource, single endpoint for getting records based on multiple parameters
  */
 public class RecordResource {
+
+    @EJB
+    private RecordBusinessLocal recordBusiness;
 
     /**
      * ID of the map to get records from
@@ -33,12 +43,42 @@ public class RecordResource {
      * if the parameters are not valid or an error occurred
      */
     @GET
-    public String getRecords(@QueryParam("score") String scoreList,
+    public Object getRecords(@QueryParam("score") String scoreList,
                              @QueryParam("player") String playerList,
                              @QueryParam("medal") String medalList,
                              @QueryParam("position") String positionList,
                              @DefaultValue("false")
                              @QueryParam("getplayercount") String getPlayerCount) {
-        return "Records for map " + mapId;
+        // Transform all lists to List<Integer>
+        List<Integer> scoreListInt = getListFromString(scoreList);
+        List<Integer> playerListInt = getListFromString(playerList);
+        List<Integer> positionListInt = getListFromString(positionList);
+
+        List<Integer> medalListInt = getListFromString(medalList);
+        // Transform the medal list to a list of medals
+        List<Medal> medalListMedal = medalListInt.stream()
+                .map(Medal::getMedalFromValue)
+                .toList();
+
+        // Check if getPlayerCount is true
+        boolean getPlayerCountBool = getPlayerCount.equals("true");
+
+        // Get the records
+        return recordBusiness.getRecords(mapId, scoreListInt, playerListInt, medalListMedal, positionListInt, getPlayerCountBool);
+    }
+
+    /**
+     * Transform a string to a list of integers
+     *
+     * @param list the string to transform
+     * @return the list of integers
+     */
+    private List<Integer> getListFromString(String list) {
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(list.split(","))
+                .map(Integer::parseInt)
+                .toList();
     }
 }
