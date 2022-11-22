@@ -2,7 +2,6 @@ package com.extraleaderboard.logic.handler;
 
 import com.extraleaderboard.model.Payload;
 import com.extraleaderboard.model.Request;
-import com.extraleaderboard.model.ResponseData;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class MainHandler {
      * @param requests the list of requests to process
      * @return the result of the processing
      */
-    public List<ResponseData> process(List<Request> requests) {
+    public Object process(List<Request> requests) {
         Payload payload = new Payload();
         payload.setRequests(requests);
 
@@ -40,6 +39,6 @@ public class MainHandler {
 
         responseHandler.handle(payload);
 
-        return payload.getResponseDataList();
+        return payload.getResponse();
     }
 }
