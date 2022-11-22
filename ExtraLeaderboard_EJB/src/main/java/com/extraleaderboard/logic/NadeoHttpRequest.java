@@ -2,6 +2,7 @@ package com.extraleaderboard.logic;
 
 import com.extraleaderboard.logic.exception.NadeoAPIResponseException;
 import com.extraleaderboard.logic.token.TokenFactory;
+import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoToken;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -22,6 +23,12 @@ public class NadeoHttpRequest {
      */
     private final NadeoToken token;
 
+
+    /**
+     *
+     */
+    private Class<?extends NadeoResponse> returnClass;
+
     /**
      * url of the endpoint to call
      */
@@ -31,6 +38,17 @@ public class NadeoHttpRequest {
      * Parameters to send with the request
      */
     private Map<String, String> parameters;
+
+    /**
+     * Class that is expected to be returned
+     */
+    public Class getReturnClass() {
+        return returnClass;
+    }
+
+    public void setReturnClass(Class returnClass) {
+        this.returnClass = returnClass;
+    }
 
     /**
      * Constructor
@@ -55,7 +73,7 @@ public class NadeoHttpRequest {
     /**
      * Set the parameters to send with the request
      *
-     * @param key key of the parameter
+     * @param key   key of the parameter
      * @param value value of the parameter
      * @return the current instance
      */
@@ -66,6 +84,7 @@ public class NadeoHttpRequest {
 
     /**
      * Remove a parameter from the request
+     *
      * @param key key of the parameter to remove
      * @return the current instance
      */
@@ -100,7 +119,7 @@ public class NadeoHttpRequest {
      * @return the response of the request as an {@link ObjectNode}
      * @throws NadeoAPIResponseException if the response is not a SUCCESS
      */
-    public ObjectNode execute() throws NadeoAPIResponseException {
+    public NadeoResponse execute() throws NadeoAPIResponseException {
         Client client = ClientBuilder.newClient();
         WebTarget target = client
                 .target(this.url)
@@ -114,7 +133,7 @@ public class NadeoHttpRequest {
         // check the response status code before returning the response
         // If the response is in the 200 range, return the response
         if (response.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL) {
-            return response.readEntity(ObjectNode.class);
+            return response.readEntity(returnClass);
         } else {
             String message = "Error while calling the Nadeo API. Status code: " + response.getStatus()
                     + ", message: " + response.getStatusInfo().getReasonPhrase();
