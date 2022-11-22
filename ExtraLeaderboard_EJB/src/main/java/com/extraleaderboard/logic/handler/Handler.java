@@ -1,10 +1,17 @@
 package com.extraleaderboard.logic.handler;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.extraleaderboard.model.Payload;
 
+/**
+ * Handler interface for implementing in handlers in the responsibility chain
+ */
 public interface Handler {
 
-    //TODO change type of param and return here, probably not going to be String
-    public ObjectNode format(ObjectNode request);
+    /**
+     *
+     * @param payloadToHandle the payload containing the requests we want to do stuff on
+     */
+    void handle(Payload payloadToHandle);
+
 
 }
