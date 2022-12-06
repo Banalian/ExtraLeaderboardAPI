@@ -20,6 +20,12 @@ import java.util.Map;
 public class NadeoHttpRequest {
 
     /**
+     * User agent used
+     */
+    private static final String USER_AGENT = "ExtraLeaderboard API : extraleaderboard@gmail.com";
+
+
+    /**
      * Token to use for the request
      */
     private final NadeoToken token;
@@ -38,7 +44,7 @@ public class NadeoHttpRequest {
     /**
      * Parameters to send with the request
      */
-    private final Map<String, Object> parameters = new HashMap<>();
+    private final Map<String, Object> parameters;
 
     /**
      * Class that is expected to be returned
@@ -57,6 +63,7 @@ public class NadeoHttpRequest {
      * @param audience audience to use for the request
      */
     public NadeoHttpRequest(Audience audience) {
+        parameters = new HashMap<>();
         this.token = TokenFactory.getToken(audience);
     }
 
@@ -123,13 +130,16 @@ public class NadeoHttpRequest {
     public NadeoResponse execute() throws NadeoAPIResponseException {
         Client client = ClientBuilder.newClient();
         WebTarget target = client
-                .target(this.url)
-                .queryParam("Authorization", "nadeo_v1 t=" + this.token.getAccessToken());
+                .target(this.url);
+
         for (Map.Entry<String, Object> entry : this.parameters.entrySet()) {
             target = target.queryParam(entry.getKey(), entry.getValue());
         }
 
-        Response response = target.request().get();
+        Response response = target.request()
+                .header("Authorization", "nadeo_v1 t=" + this.token.getAccessToken())
+                .header("User-Agent", USER_AGENT)
+                .get();
 
         // check the response status code before returning the response
         // If the response is in the 200 range, return the response
