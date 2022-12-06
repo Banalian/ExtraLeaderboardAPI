@@ -133,7 +133,7 @@ public class TokenHandler {
         return target.request()
                 .header("Content-Type", "application/json")
                 .header("User-Agent", USER_AGENT)
-                .header("AUTHORIZATION", UBI_AUTH_NAME + " t=" + ubisoftTicket)
+                .header(AUTHORIZATION, UBI_AUTH_NAME + " t=" + ubisoftTicket)
                 .post(Entity.json(audienceJson), NadeoToken.class);
     }
 

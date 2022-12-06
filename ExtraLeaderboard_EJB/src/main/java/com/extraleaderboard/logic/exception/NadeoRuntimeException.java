@@ -9,4 +9,8 @@ public class NadeoRuntimeException extends RuntimeException {
     public NadeoRuntimeException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public NadeoRuntimeException(Exception e) {
+        super(e);
+    }
 }
