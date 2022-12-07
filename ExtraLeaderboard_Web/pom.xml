@@ -28,5 +28,10 @@
             <groupId>com.extraleaderboard</groupId>
             <artifactId>ExtraLeaderboard_EJB</artifactId>
         </dependency>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

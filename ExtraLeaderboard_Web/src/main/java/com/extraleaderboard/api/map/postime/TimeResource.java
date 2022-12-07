@@ -1,5 +1,6 @@
 package com.extraleaderboard.api.map.postime;
 
+import com.extraleaderboard.business.implementation.map.postime.TimeBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.postime.TimeBusinessLocal;
 
 import javax.ejb.EJB;
@@ -12,8 +13,8 @@ import javax.ws.rs.QueryParam;
  */
 public class TimeResource {
 
-    @EJB
-    private TimeBusinessLocal timeBusiness;
+    //@EJB
+    private TimeBusinessLocal timeBusiness = new TimeBusinessImpl();
 
     /**
      * ID of the map to get records from

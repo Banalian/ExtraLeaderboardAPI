@@ -1,5 +1,6 @@
 package com.extraleaderboard.api.map.record;
 
+import com.extraleaderboard.business.implementation.map.record.RecordBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.record.RecordBusinessLocal;
 import com.extraleaderboard.model.trackmania.Medal;
 
@@ -16,8 +17,8 @@ import java.util.List;
  */
 public class RecordResource {
 
-    @EJB
-    private RecordBusinessLocal recordBusiness;
+    //@EJB
+    private RecordBusinessLocal recordBusiness = new RecordBusinessImpl();
 
     /**
      * ID of the map to get records from

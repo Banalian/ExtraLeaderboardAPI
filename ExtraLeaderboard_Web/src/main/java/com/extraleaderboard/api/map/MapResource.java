@@ -4,6 +4,7 @@ import com.extraleaderboard.api.map.medal.MedalResource;
 import com.extraleaderboard.api.map.postime.PositionResource;
 import com.extraleaderboard.api.map.postime.TimeResource;
 import com.extraleaderboard.api.map.record.RecordResource;
+import com.extraleaderboard.business.implementation.map.MapBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.MapBusinessLocal;
 
 import javax.ejb.EJB;
@@ -16,8 +17,8 @@ import javax.ws.rs.Path;
  */
 public class MapResource {
 
-    @EJB
-    private MapBusinessLocal mapBusiness;
+    //@EJB
+    private MapBusinessLocal mapBusiness = new MapBusinessImpl();
 
     /**
      * Map id, needed to get the right information
