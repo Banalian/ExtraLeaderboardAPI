@@ -35,6 +35,11 @@ public class TokenHandler {
     private static final String UBISOFT_PASSWORD = System.getProperty("ubisoft.password");
 
     /**
+     * User agent used
+     */
+    private static final String USER_AGENT = "ExtraLeaderboard API : extraleaderboard@gmail.com";
+
+    /**
      * Authorization header name used to get the token
      */
     public static final String AUTHORIZATION = "Authorization";
@@ -105,7 +110,7 @@ public class TokenHandler {
         return target.request(MediaType.APPLICATION_JSON)
                 .header("Content-Type", "application/json")
                 .header("Ubi-AppId", "86263886-327a-4328-ac69-527f0d20a237")
-                .header("User-Agent", "Banalian API Test : Banalian#0584 on Discord")
+                .header("User-Agent", USER_AGENT)
                 .header(AUTHORIZATION, "Basic " + getBase64EncodedCredentials())
                 .post(Entity.json(""), UbisoftTicket.class);
     }
@@ -127,7 +132,7 @@ public class TokenHandler {
 
         return target.request()
                 .header("Content-Type", "application/json")
-                .header("User-Agent", "Banalian API Test : Banalian#0584 on Discord")
+                .header("User-Agent", USER_AGENT)
                 .header("AUTHORIZATION", UBI_AUTH_NAME + " t=" + ubisoftTicket)
                 .post(Entity.json(audienceJson), NadeoToken.class);
     }

@@ -11,6 +11,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -37,16 +38,16 @@ public class NadeoHttpRequest {
     /**
      * Parameters to send with the request
      */
-    private Map<String, Object> parameters;
+    private final Map<String, Object> parameters = new HashMap<>();
 
     /**
      * Class that is expected to be returned
      */
-    public Class getReturnClass() {
+    public Class<?extends NadeoResponse> getReturnClass() {
         return returnClass;
     }
 
-    public void setReturnClass(Class returnClass) {
+    public void setReturnClass(Class<?extends NadeoResponse> returnClass) {
         this.returnClass = returnClass;
     }
 

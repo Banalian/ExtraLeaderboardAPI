@@ -1,5 +1,6 @@
 package com.extraleaderboard.api.map.medal;
 
+import com.extraleaderboard.business.implementation.map.medal.MedalBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.medal.MedalBusinessLocal;
 
 import javax.ejb.EJB;
@@ -12,8 +13,8 @@ import javax.ws.rs.Path;
  */
 public class MedalResource {
 
-    @EJB
-    private MedalBusinessLocal medalBusiness;
+    //@EJB
+    private MedalBusinessLocal medalBusiness = new MedalBusinessImpl();
 
     /**
      * Map id, needed to get the right information

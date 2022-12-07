@@ -6,8 +6,10 @@ import com.extraleaderboard.model.Request;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
 
+import javax.ejb.Stateless;
 import java.util.*;
 
+@Stateless
 public class TimeBusinessImpl implements TimeBusinessLocal {
 
     /**

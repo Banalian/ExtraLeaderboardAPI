@@ -1,20 +1,20 @@
 package com.extraleaderboard.api.map.postime;
 
 
+import com.extraleaderboard.business.implementation.map.postime.PositionBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.postime.PositionBusinessLocal;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 
 /**
- * Time resource, returns information about the position and time of a player on a map (based on the time requested)
+ * Position resource, returns information about the position and time of a player on a map (based on the time requested)
  */
 public class PositionResource {
 
-    @EJB
-    private PositionBusinessLocal positionBusiness;
+    //@EJB
+    private final PositionBusinessLocal positionBusiness = new PositionBusinessImpl();
 
     /**
      * ID of the map to get records from
@@ -27,6 +27,7 @@ public class PositionResource {
     }
 
     @GET
+    @Produces("application/json")
     public Object pos(@QueryParam("time") int time) {
         return positionBusiness.getPosition(mapId, time);
     }
