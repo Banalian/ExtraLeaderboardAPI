@@ -2,40 +2,13 @@ package com.extraleaderboard.model.nadeoresponse;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "uid",
-        "mapId",
-        "name",
-        "author",
-        "submitter",
-        "authorTime",
-        "goldTime",
-        "silverTime",
-        "bronzeTime",
-        "nbLaps",
-        "valid",
-        "downloadUrl",
-        "thumbnailUrl",
-        "uploadTimestamp",
-        "updateTimestamp",
-        "fileSize",
-        "public",
-        "favorite",
-        "playable",
-        "mapStyle",
-        "mapType",
-        "collectionName"
-})
-@Generated("jsonschema2pojo")
 public class NadeoMapResponse extends NadeoResponse{
 
     @JsonProperty("uid")

@@ -6,5 +6,5 @@ import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 
 //TODO: Add documentation for Converters and the data types they use
 public interface Converter {
-    public ResponseData convert(NadeoResponse response);
+    ResponseData convert(NadeoResponse response);
 }
