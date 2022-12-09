@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "tops"
 })
 @Generated("jsonschema2pojo")
-public class NadeoPositionResponse {
+public class NadeoPositionResponse extends NadeoResponse{
 
     @JsonProperty("groupUid")
     private String groupUid;
