@@ -30,6 +30,11 @@ public class NadeoHttpRequest {
      */
     private final NadeoToken token;
 
+    /**
+     * private client used to make the request
+     */
+    private static final Client CLIENT = ClientBuilder.newClient();
+
 
     /**
      *
@@ -128,8 +133,7 @@ public class NadeoHttpRequest {
      * @throws NadeoAPIResponseException if the response is not a SUCCESS
      */
     public NadeoResponse execute() throws NadeoAPIResponseException {
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client
+        WebTarget target = CLIENT
                 .target(this.url);
 
         for (Map.Entry<String, Object> entry : this.parameters.entrySet()) {
