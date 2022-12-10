@@ -21,7 +21,6 @@ public class Payload {
     private List<ResponseData> responseDataList;
 
     /**
-     *
      * @return the request list of the current Payload
      */
     public List<Request> getRequests() {
@@ -29,7 +28,6 @@ public class Payload {
     }
 
     /**
-     *
      * @param newRequests
      */
     public void setRequests(List<Request> newRequests) {
@@ -37,7 +35,6 @@ public class Payload {
     }
 
     /**
-     *
      * @param index
      * @return the request at the index in the request list of the current Payload
      */
@@ -46,7 +43,6 @@ public class Payload {
     }
 
     /**
-     *
      * @return the list of ResponseData of the current Payload
      */
     public List<ResponseData> getResponseDataList() {
@@ -54,7 +50,6 @@ public class Payload {
     }
 
     /**
-     *
      * @param newResponseDataList
      */
     public void setResponseDataList(List<ResponseData> newResponseDataList) {

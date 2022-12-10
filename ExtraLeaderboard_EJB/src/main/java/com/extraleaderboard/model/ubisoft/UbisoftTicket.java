@@ -1,19 +1,16 @@
 package com.extraleaderboard.model.ubisoft;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UbisoftTicket implements Serializable
-{
+import java.io.Serial;
+import java.io.Serializable;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UbisoftTicket implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -8414733067625911466L;
     @JsonProperty("platformType")
     private String platformType;
     @JsonProperty("ticket")
@@ -44,9 +41,6 @@ public class UbisoftTicket implements Serializable
     private String sessionKey;
     @JsonProperty("rememberMeTicket")
     private Object rememberMeTicket;
-
-    @Serial
-    private static final long serialVersionUID = -8414733067625911466L;
 
     @JsonProperty("platformType")
     public String getPlatformType() {

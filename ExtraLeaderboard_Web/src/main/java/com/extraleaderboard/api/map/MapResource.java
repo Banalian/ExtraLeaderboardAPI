@@ -8,7 +8,6 @@ import com.extraleaderboard.business.implementation.map.MapBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.MapBusinessLocal;
 import com.extraleaderboard.model.UserResponse;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

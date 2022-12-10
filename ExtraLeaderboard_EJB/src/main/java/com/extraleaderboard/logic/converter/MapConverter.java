@@ -5,13 +5,13 @@ import com.extraleaderboard.model.nadeoresponse.NadeoMapResponse;
 import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 
 
-public class MapConverter implements Converter{
+public class MapConverter implements Converter {
 
     public MapInfo convert(NadeoResponse nadeoResponse) {
-        if(nadeoResponse != null && nadeoResponse instanceof NadeoMapResponse){
+        if (nadeoResponse != null && nadeoResponse instanceof NadeoMapResponse) {
             //We are dealing with a map response, we assume that the tops list is empty, we just want the info about the map
             NadeoMapResponse nadMapResponse = (NadeoMapResponse) nadeoResponse;
-            if(nadMapResponse != null){
+            if (nadMapResponse != null) {
                 MapInfo mapInfo = new MapInfo();
 
                 //general info

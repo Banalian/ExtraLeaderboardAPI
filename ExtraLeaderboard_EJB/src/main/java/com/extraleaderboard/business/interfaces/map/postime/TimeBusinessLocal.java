@@ -14,8 +14,8 @@ public interface TimeBusinessLocal {
     /**
      * Get the position of a player on a map based on the time requested
      *
-     * @param mapId id of the map
-     * @param position  position to get the position of
+     * @param mapId    id of the map
+     * @param position position to get the position of
      * @return time of the player on the map
      */
     UserResponse getTime(String mapId, int position);
@@ -24,7 +24,7 @@ public interface TimeBusinessLocal {
     /**
      * Get the position of a list of times on a map
      *
-     * @param mapId id of the map
+     * @param mapId     id of the map
      * @param positions list of positions to get the position of
      * @return list of times of the players on the map
      */

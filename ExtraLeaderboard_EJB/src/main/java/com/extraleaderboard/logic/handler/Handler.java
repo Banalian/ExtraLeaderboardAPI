@@ -8,7 +8,6 @@ import com.extraleaderboard.model.Payload;
 public interface Handler {
 
     /**
-     *
      * @param payloadToHandle the payload containing the requests we want to do stuff on
      */
     void handle(Payload payloadToHandle);

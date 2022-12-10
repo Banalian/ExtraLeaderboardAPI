@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserResponse implements Cloneable{
+public class UserResponse implements Cloneable {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<LeaderboardPosition> positions;
@@ -27,7 +27,7 @@ public class UserResponse implements Cloneable{
     }
 
     public void addPosition(LeaderboardPosition position) {
-        if(positions == null) {
+        if (positions == null) {
             positions = new ArrayList<>();
         }
         this.positions.add(position);
@@ -42,7 +42,7 @@ public class UserResponse implements Cloneable{
     }
 
     public void addMeta(String key, Object value) {
-        if(meta == null) {
+        if (meta == null) {
             meta = new HashMap<>();
         }
         this.meta.put(key, value);
@@ -58,6 +58,7 @@ public class UserResponse implements Cloneable{
 
     /**
      * UserResponse cloning method
+     *
      * @return a clone of the current UserResponse
      */
     @Override

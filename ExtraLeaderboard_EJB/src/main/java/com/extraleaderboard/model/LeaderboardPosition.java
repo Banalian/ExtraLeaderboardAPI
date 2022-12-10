@@ -6,7 +6,7 @@ public class LeaderboardPosition extends ResponseData {
 
     private String accountId;
 
-    public LeaderboardPosition(int time, int rank,String accountId) {
+    public LeaderboardPosition(int time, int rank, String accountId) {
         this.time = time;
         this.rank = rank;
         this.accountId = accountId;

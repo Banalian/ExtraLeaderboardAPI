@@ -2,7 +2,8 @@ package com.extraleaderboard.api;
 
 import com.extraleaderboard.api.map.MapResource;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 
 @Path("/leaderboard")
