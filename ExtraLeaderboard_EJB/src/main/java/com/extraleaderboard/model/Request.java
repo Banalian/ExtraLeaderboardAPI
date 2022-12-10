@@ -1,10 +1,11 @@
 
 package com.extraleaderboard.model;
 
-import com.extraleaderboard.model.nadeoresponse.NadeoPercentResponse;
+import com.extraleaderboard.model.nadeoresponse.NadeoMapResponse;
 import com.extraleaderboard.model.nadeoresponse.NadeoPositionResponse;
 import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 import com.extraleaderboard.model.nadeo.Audience;
+import com.extraleaderboard.model.nadeoresponse.NadeoTimeResponse;
 
 import java.util.Collections;
 import java.util.Map;
@@ -20,9 +21,9 @@ public class Request implements Cloneable {
      * Represents the expected response type corresponding to the current Request
      */
     public enum ResponseType {
-        TIME(NadeoPositionResponse.class),
+        TIME(NadeoTimeResponse.class),
         POSITION(NadeoPositionResponse.class),
-        MAP_INFO(NadeoResponse.class);
+        MAP_INFO(NadeoMapResponse.class);
 
 
         ResponseType(Class<? extends NadeoResponse> clazz) {

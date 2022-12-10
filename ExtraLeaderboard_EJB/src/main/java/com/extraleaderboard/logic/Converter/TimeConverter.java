@@ -9,7 +9,7 @@ public class TimeConverter implements Converter{
     public LeaderboardPosition convert(NadeoResponse nadeoResponse) {
         LeaderboardPosition pos;
 
-        if(nadeoResponse != null && nadeoResponse instanceof NadeoPositionResponse){
+        if(nadeoResponse != null && nadeoResponse instanceof NadeoTimeResponse){
             //We are dealing with a time response, we assume that only one position is returned, i.e. tops is a list of size 1
             NadeoTimeResponse nadTimeResponse = (NadeoTimeResponse) nadeoResponse;
             if (nadTimeResponse.getTops() != null && nadTimeResponse.getTops().size() == 1){

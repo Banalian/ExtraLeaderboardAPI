@@ -7,7 +7,6 @@ import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
 
 import javax.ejb.Stateless;
-import javax.faces.bean.RequestScoped;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
