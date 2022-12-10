@@ -2,11 +2,12 @@ package com.extraleaderboard.api.map.record;
 
 import com.extraleaderboard.business.implementation.map.record.RecordBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.record.RecordBusinessLocal;
+import com.extraleaderboard.model.UserResponse;
 import com.extraleaderboard.model.trackmania.Medal;
 
-import javax.ejb.EJB;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import java.util.Arrays;
 import java.util.Collections;
@@ -44,12 +45,15 @@ public class RecordResource {
      * if the parameters are not valid or an error occurred
      */
     @GET
-    public Object getRecords(@QueryParam("score") String scoreList,
-                             @QueryParam("player") String playerList,
-                             @QueryParam("medal") String medalList,
-                             @QueryParam("position") String positionList,
-                             @DefaultValue("false")
-                             @QueryParam("getplayercount") String getPlayerCount) {
+    @Produces("application/json")
+    public UserResponse getRecords(@QueryParam("score") String scoreList,
+                                   @QueryParam("player") String playerList,
+                                   @QueryParam("medal") String medalList,
+                                   @QueryParam("position") String positionList,
+                                   @DefaultValue("false")
+                                   @QueryParam("getplayercount") String getPlayerCount,
+                                   @DefaultValue("false")
+                                   @QueryParam("getmapinfo") String getMapInfo) {
         // Transform all lists to List<Integer>
         List<Integer> scoreListInt = getListFromString(scoreList);
         List<Integer> playerListInt = getListFromString(playerList);
@@ -62,10 +66,11 @@ public class RecordResource {
                 .toList();
 
         // Check if getPlayerCount is true
-        boolean getPlayerCountBool = getPlayerCount.equals("true");
+        boolean getPlayerCountBool = !"false".equals(getPlayerCount);
+        boolean getMapInfoBool = !"false".equals(getMapInfo);
 
         // Get the records
-        return recordBusiness.getRecords(mapId, scoreListInt, playerListInt, medalListMedal, positionListInt, getPlayerCountBool);
+        return recordBusiness.getRecords(mapId, scoreListInt, playerListInt, medalListMedal, positionListInt, getPlayerCountBool, getMapInfoBool);
     }
 
     /**

@@ -2,7 +2,10 @@ package com.extraleaderboard.business.implementation.map.postime;
 
 import com.extraleaderboard.business.interfaces.map.postime.PositionBusinessLocal;
 import com.extraleaderboard.logic.handler.MainHandler;
+import com.extraleaderboard.model.LeaderboardPosition;
 import com.extraleaderboard.model.Request;
+import com.extraleaderboard.model.ResponseData;
+import com.extraleaderboard.model.UserResponse;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
 
@@ -16,7 +19,7 @@ public class PositionBusinessImpl implements PositionBusinessLocal {
      * {@inheritDoc}
      */
     @Override
-    public Object getPosition(String mapId, int time) {
+    public UserResponse getPosition(String mapId, int time) {
         String finalUrl = generateUrl(mapId);
 
         Map<String, Object> parameters = new HashMap<>();
@@ -26,16 +29,20 @@ public class PositionBusinessImpl implements PositionBusinessLocal {
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION);
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(Collections.singletonList(request));
+        List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
 
-        return response;
+        // Get the LeaderBoardPosition from the response and put it in a UserResponse object
+        UserResponse userResponse = new UserResponse();
+        userResponse.addPosition((LeaderboardPosition) response.get(0));
+
+        return userResponse;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getPositions(String mapId, List<Integer> times) {
+    public UserResponse getPositions(String mapId, List<Integer> times) {
         String finalUrl = generateUrl(mapId);
 
         List<Request> requests = new ArrayList<>();
@@ -50,10 +57,15 @@ public class PositionBusinessImpl implements PositionBusinessLocal {
         }
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(requests);
+        List<ResponseData> response = mainHandler.process(requests);
 
+        // Get the LeaderBoardPosition from the response and put it in a UserResponse object
+        UserResponse userResponse = new UserResponse();
+        for (ResponseData responseData : response) {
+            userResponse.addPosition((LeaderboardPosition) responseData);
+        }
 
-        return response;
+        return userResponse;
     }
 
     private String generateUrl(String mapId) {

@@ -6,11 +6,13 @@ import com.extraleaderboard.api.map.postime.TimeResource;
 import com.extraleaderboard.api.map.record.RecordResource;
 import com.extraleaderboard.business.implementation.map.MapBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.MapBusinessLocal;
+import com.extraleaderboard.model.UserResponse;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 /**
  * Map resource, redirect to other resources related to leaderboard of this map
@@ -41,7 +43,8 @@ public class MapResource {
      * @return MapInfo
      */
     @GET
-    public Object allInfo() {
+    @Produces("application/json")
+    public UserResponse allInfo() {
         return mapBusiness.getAllMapInfo(mapId);
     }
 
@@ -52,7 +55,8 @@ public class MapResource {
      */
     @GET
     @Path("/playercount")
-    public Object playerInfo() {
+    @Produces("application/json")
+    public UserResponse playerInfo() {
         return mapBusiness.getPlayerCount(mapId);
     }
 

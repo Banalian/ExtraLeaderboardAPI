@@ -18,7 +18,7 @@ public interface PositionBusinessLocal {
      * @param time  time to get the position of
      * @return position of the player on the map
      */
-    Object getPosition(String mapId, int time);
+    UserResponse getPosition(String mapId, int time);
 
 
     /**
@@ -28,5 +28,5 @@ public interface PositionBusinessLocal {
      * @param times list of times to get the position of
      * @return list of positions of the players on the map
      */
-    Object getPositions(String mapId, List<Integer> times);
+    UserResponse getPositions(String mapId, List<Integer> times);
 }

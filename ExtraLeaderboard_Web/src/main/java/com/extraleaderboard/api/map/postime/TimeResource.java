@@ -2,10 +2,12 @@ package com.extraleaderboard.api.map.postime;
 
 import com.extraleaderboard.business.implementation.map.postime.TimeBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.postime.TimeBusinessLocal;
+import com.extraleaderboard.model.UserResponse;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 /**
@@ -27,7 +29,8 @@ public class TimeResource {
     }
 
     @GET
-    public Object time(@QueryParam("pos") int pos) {
+    @Produces("application/json")
+    public UserResponse time(@QueryParam("pos") int pos) {
         return timeBusiness.getTime(mapId, pos);
     }
 

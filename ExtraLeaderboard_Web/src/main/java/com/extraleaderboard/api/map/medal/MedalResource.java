@@ -2,11 +2,13 @@ package com.extraleaderboard.api.map.medal;
 
 import com.extraleaderboard.business.implementation.map.medal.MedalBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.medal.MedalBusinessLocal;
+import com.extraleaderboard.model.UserResponse;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 /**
  * Medal resource, returns information about medals of a map
@@ -32,7 +34,8 @@ public class MedalResource {
      * @return all medals time and hypothetical positions in the leaderboard of the map
      */
     @GET
-    public Object getAllMedals() {
+    @Produces("application/json")
+    public UserResponse getAllMedals() {
         return medalBusiness.getAllMedals(mapId);
     }
 
@@ -43,7 +46,8 @@ public class MedalResource {
      */
     @GET
     @Path("/at")
-    public Object atMedal() {
+    @Produces("application/json")
+    public UserResponse atMedal() {
         return medalBusiness.getAtMedal(mapId);
     }
 
@@ -54,7 +58,8 @@ public class MedalResource {
      */
     @GET
     @Path("/gold")
-    public Object goldMedal() {
+    @Produces("application/json")
+    public UserResponse goldMedal() {
         return medalBusiness.getGoldMedal(mapId);
     }
 
@@ -65,7 +70,8 @@ public class MedalResource {
      */
     @GET
     @Path("/silver")
-    public Object silverMedal() {
+    @Produces("application/json")
+    public UserResponse silverMedal() {
         return medalBusiness.getSilverMedal(mapId);
     }
 
@@ -76,7 +82,8 @@ public class MedalResource {
      */
     @GET
     @Path("/bronze")
-    public Object bronzeMedal() {
+    @Produces("application/json")
+    public UserResponse bronzeMedal() {
         return medalBusiness.getBronzeMedal(mapId);
     }
 

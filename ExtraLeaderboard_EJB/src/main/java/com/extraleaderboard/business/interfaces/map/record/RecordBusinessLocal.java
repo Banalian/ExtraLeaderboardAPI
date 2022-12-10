@@ -1,5 +1,6 @@
 package com.extraleaderboard.business.interfaces.map.record;
 
+import com.extraleaderboard.model.UserResponse;
 import com.extraleaderboard.model.trackmania.Medal;
 
 import javax.ejb.Local;
@@ -21,10 +22,12 @@ public interface RecordBusinessLocal {
      * @param positionList  list of positions, used to return the times of these positions
      * @param getPlayerInfo true or false, used to return the amount of players on the leaderboard. Default is false.
      *                      If any other value is given, it will be considered as true
+     * @param getMapInfo    true or false, used to return the map information. Default is false.
+     *                      If any other value is given, it will be considered as true
      * @return an JSON object with the requested information, with a list of records, and other potential information.
      * The returned JSON might also contain some warning or error messages
      * if the parameters are not valid or an error occurred
      */
-    Object getRecords(String mapId, List<Integer> scoreList, List<Integer> playerList, List<Medal> medalList, List<Integer> positionList, boolean getPlayerInfo);
+    UserResponse getRecords(String mapId, List<Integer> scoreList, List<Integer> playerList, List<Medal> medalList, List<Integer> positionList, boolean getPlayerInfo, boolean getMapInfo);
 
 }
