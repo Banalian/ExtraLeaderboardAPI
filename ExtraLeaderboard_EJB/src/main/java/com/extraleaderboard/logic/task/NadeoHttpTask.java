@@ -3,8 +3,8 @@ package com.extraleaderboard.logic.task;
 import com.extraleaderboard.logic.NadeoHttpRequest;
 import com.extraleaderboard.logic.exception.NadeoAPIResponseException;
 import com.extraleaderboard.logic.exception.NadeoRuntimeException;
-import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 import com.extraleaderboard.model.Request;
+import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 
 import java.util.Map;
 
@@ -18,7 +18,6 @@ public class NadeoHttpTask implements Runnable {
     private NadeoHttpRequest nadeoRequest;
 
     /**
-     *
      * @return the request of the current task
      */
     public Request getRequest() {
@@ -26,7 +25,6 @@ public class NadeoHttpTask implements Runnable {
     }
 
     /**
-     *
      * @param request
      */
     public void setRequest(Request request) {
@@ -42,7 +40,7 @@ public class NadeoHttpTask implements Runnable {
         //audience
         nadeoRequest = new NadeoHttpRequest(request.getAudience());
         //parameters
-        for(Map.Entry<String, Object> entry : request.getQueryParamMap().entrySet()){
+        for (Map.Entry<String, Object> entry : request.getQueryParamMap().entrySet()) {
             nadeoRequest.setParameter(entry.getKey(), entry.getValue());
         }
         //url

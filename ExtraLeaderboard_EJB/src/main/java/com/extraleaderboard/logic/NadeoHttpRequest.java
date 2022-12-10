@@ -2,9 +2,9 @@ package com.extraleaderboard.logic;
 
 import com.extraleaderboard.logic.exception.NadeoAPIResponseException;
 import com.extraleaderboard.logic.token.TokenFactory;
-import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoToken;
+import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import javax.ws.rs.client.Client;
@@ -23,44 +23,26 @@ public class NadeoHttpRequest {
      * User agent used
      */
     private static final String USER_AGENT = "ExtraLeaderboard API : extraleaderboard@gmail.com";
-
-
-    /**
-     * Token to use for the request
-     */
-    private final NadeoToken token;
-
     /**
      * private client used to make the request
      */
     private static final Client CLIENT = ClientBuilder.newClient();
-
-
     /**
-     *
+     * Token to use for the request
      */
-    private Class<?extends NadeoResponse> returnClass;
-
-    /**
-     * url of the endpoint to call
-     */
-    private String url;
-
+    private final NadeoToken token;
     /**
      * Parameters to send with the request
      */
     private final Map<String, Object> parameters;
-
     /**
-     * Class that is expected to be returned
+     *
      */
-    public Class<?extends NadeoResponse> getReturnClass() {
-        return returnClass;
-    }
-
-    public void setReturnClass(Class<?extends NadeoResponse> returnClass) {
-        this.returnClass = returnClass;
-    }
+    private Class<? extends NadeoResponse> returnClass;
+    /**
+     * url of the endpoint to call
+     */
+    private String url;
 
     /**
      * Constructor
@@ -70,6 +52,17 @@ public class NadeoHttpRequest {
     public NadeoHttpRequest(Audience audience) {
         parameters = new HashMap<>();
         this.token = TokenFactory.getToken(audience);
+    }
+
+    /**
+     * Class that is expected to be returned
+     */
+    public Class<? extends NadeoResponse> getReturnClass() {
+        return returnClass;
+    }
+
+    public void setReturnClass(Class<? extends NadeoResponse> returnClass) {
+        this.returnClass = returnClass;
     }
 
     /**

@@ -24,7 +24,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
         List<Request> requests = new ArrayList<>();
 
         for (Medal medal : Medal.values()) {
-            if(medal == Medal.NONE){
+            if (medal == Medal.NONE) {
                 continue;
             }
             Map<String, Object> parameters = new HashMap<>();
@@ -49,7 +49,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
             LeaderboardPosition leaderboardPosition = (LeaderboardPosition) responseData;
             userResponse.addPosition(leaderboardPosition);
         }
-        
+
         return userResponse;
     }
 
@@ -105,7 +105,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
         return userResponse;
     }
 
-    private MapInfo getMapInfo(String mapId){
+    private MapInfo getMapInfo(String mapId) {
         String finalUrlMapInfo = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO);
@@ -116,7 +116,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
         return (MapInfo) response.get(0);
     }
 
-    private LeaderboardPosition getTimeOfMedal(String mapId, int score){
+    private LeaderboardPosition getTimeOfMedal(String mapId, int score) {
         String finalUrlSurround = generateUrlSurround(mapId);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("onlyWorld", "true");

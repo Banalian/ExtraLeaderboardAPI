@@ -1,16 +1,13 @@
 package com.extraleaderboard.model.nadeoresponse;
 
+import com.fasterxml.jackson.annotation.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NadeoPositionResponse extends NadeoResponse{
+public class NadeoPositionResponse extends NadeoResponse {
 
     @JsonProperty("groupUid")
     private String groupUid;

@@ -5,9 +5,10 @@ import com.extraleaderboard.business.implementation.map.postime.PositionBusiness
 import com.extraleaderboard.business.interfaces.map.postime.PositionBusinessLocal;
 import com.extraleaderboard.model.UserResponse;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 /**
  * Position resource, returns information about the position and time of a player on a map (based on the time requested)

@@ -3,42 +3,42 @@ package com.extraleaderboard.model.trackmania;
 import java.util.Arrays;
 
 /**
- *  Enum representing the medals available in Trackmania
+ * Enum representing the medals available in Trackmania
  */
 public enum Medal {
 
     /**
-     *  No medal
+     * No medal
      */
     NONE(0),
 
     /**
-     *  Bronze medal
+     * Bronze medal
      */
     BRONZE(1),
 
     /**
-     *  Silver medal
+     * Silver medal
      */
     SILVER(2),
 
     /**
-     *  Gold medal
+     * Gold medal
      */
     GOLD(3),
 
     /**
-     *  Author medal
+     * Author medal
      */
     AUTHOR(4);
 
     /**
-     *  The value of the medal
+     * The value of the medal
      */
     private final int value;
 
     /**
-     *  Constructor
+     * Constructor
      *
      * @param value the value of the medal
      */
@@ -47,16 +47,7 @@ public enum Medal {
     }
 
     /**
-     *  Get the value of the medal
-     *
-     * @return the value of the medal
-     */
-    public int getValue() {
-        return value;
-    }
-
-    /**
-     *  Get the medal from the value
+     * Get the medal from the value
      *
      * @param value the value of the medal
      * @return the medal
@@ -66,6 +57,15 @@ public enum Medal {
                 .filter(medal -> medal.getValue() == value)
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Get the value of the medal
+     *
+     * @return the value of the medal
+     */
+    public int getValue() {
+        return value;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.extraleaderboard.model;
 
-public class MapInfo extends ResponseData{
+public class MapInfo extends ResponseData {
 
     String uid;
     String name;

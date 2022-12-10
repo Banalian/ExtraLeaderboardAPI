@@ -17,10 +17,10 @@ public class RequestSerializer extends JsonSerializer<Request> {
     public void serialize(Request request,
                           JsonGenerator jsonGenerator,
                           SerializerProvider serializerProvider)
-                          throws IOException {
+            throws IOException {
 
         StringWriter writer = new StringWriter();
-        mapper.writeValue(writer,request);
+        mapper.writeValue(writer, request);
         jsonGenerator.writeFieldName(writer.toString());
 
     }

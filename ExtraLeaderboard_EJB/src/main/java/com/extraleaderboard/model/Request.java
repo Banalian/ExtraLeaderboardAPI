@@ -1,10 +1,9 @@
-
 package com.extraleaderboard.model;
 
+import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeoresponse.NadeoMapResponse;
 import com.extraleaderboard.model.nadeoresponse.NadeoPositionResponse;
 import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
-import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeoresponse.NadeoTimeResponse;
 
 import java.util.Collections;
@@ -17,36 +16,10 @@ import java.util.Map;
  */
 public class Request implements Cloneable {
 
-    /**
-     * Represents the expected response type corresponding to the current Request
-     */
-    public enum ResponseType {
-        TIME(NadeoTimeResponse.class),
-        POSITION(NadeoPositionResponse.class),
-        MAP_INFO(NadeoMapResponse.class);
-
-
-        ResponseType(Class<? extends NadeoResponse> clazz) {
-            this.clazz = clazz;
-        }
-
-        private final Class<? extends NadeoResponse> clazz;
-
-        public Class<? extends NadeoResponse> getClazz() {
-            return clazz;
-        }
-
-
-    }
-
     private String endPoint;
-
     private Map<String, Object> queryParamMap;
-
     private ResponseType responseType;
-
     private NadeoResponse response;
-
     private Audience audience;
 
     /**
@@ -71,12 +44,12 @@ public class Request implements Cloneable {
         return Collections.unmodifiableMap(queryParamMap);
     }
 
-    public void setEndPoint(String endPoint) {
-        this.endPoint = endPoint;
-    }
-
     public String getEndPoint() {
         return endPoint;
+    }
+
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
     }
 
     public NadeoResponse getResponse() {
@@ -109,6 +82,28 @@ public class Request implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    /**
+     * Represents the expected response type corresponding to the current Request
+     */
+    public enum ResponseType {
+        TIME(NadeoTimeResponse.class),
+        POSITION(NadeoPositionResponse.class),
+        MAP_INFO(NadeoMapResponse.class);
+
+
+        private final Class<? extends NadeoResponse> clazz;
+
+        ResponseType(Class<? extends NadeoResponse> clazz) {
+            this.clazz = clazz;
+        }
+
+        public Class<? extends NadeoResponse> getClazz() {
+            return clazz;
+        }
+
+
     }
 
 }

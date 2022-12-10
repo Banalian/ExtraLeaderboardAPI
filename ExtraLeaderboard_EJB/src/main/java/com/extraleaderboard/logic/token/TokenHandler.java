@@ -22,38 +22,31 @@ import java.util.Timer;
  */
 public class TokenHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TokenHandler.class);
-
-    /**
-     * Email of the ubisoft account used to get the token
-     */
-    private static final String UBISOFT_MAIL = System.getProperty("ubisoft.email");
-
-    /**
-     * Password of the ubisoft account used to get the token
-     */
-    private static final String UBISOFT_PASSWORD = System.getProperty("ubisoft.password");
-
-    /**
-     * User agent used
-     */
-    private static final String USER_AGENT = "ExtraLeaderboard API : extraleaderboard@gmail.com";
-
     /**
      * Authorization header name used to get the token
      */
     public static final String AUTHORIZATION = "Authorization";
-
     /**
      * Authorization header value used to get the token from the ubisoft API
      */
     public static final String UBI_AUTH_NAME = "ubi_v1";
-
     /**
      * Authorization header value used to get the token from the nadeo API
      */
     public static final String NADEO_AUTH_NAME = "nadeo_v1";
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenHandler.class);
+    /**
+     * Email of the ubisoft account used to get the token
+     */
+    private static final String UBISOFT_MAIL = System.getProperty("ubisoft.email");
+    /**
+     * Password of the ubisoft account used to get the token
+     */
+    private static final String UBISOFT_PASSWORD = System.getProperty("ubisoft.password");
+    /**
+     * User agent used
+     */
+    private static final String USER_AGENT = "ExtraLeaderboard API : extraleaderboard@gmail.com";
     /**
      * Client used to call the different APIs
      */

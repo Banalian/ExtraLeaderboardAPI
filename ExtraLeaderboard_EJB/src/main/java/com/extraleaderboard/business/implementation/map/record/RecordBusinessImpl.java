@@ -26,8 +26,8 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
         List<Request> requests = new ArrayList<>();
 
         // If we want the playerCount, we need to add a request for it and put it first in the list
-        if(getPlayerInfo) {
-            Map<String,Object> queryParameters = new HashMap<>();
+        if (getPlayerInfo) {
+            Map<String, Object> queryParameters = new HashMap<>();
             queryParameters.put("onlyWorld", "true");
             queryParameters.put("score", Integer.MAX_VALUE);
 
@@ -37,10 +37,10 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
 
         MapInfo mapInfo = null;
 
-        if(medalList != null && !medalList.isEmpty()) {
+        if (medalList != null && !medalList.isEmpty()) {
             mapInfo = getMapInfo(mapId);
-            for ( Medal medal : medalList ) {
-                Map<String,Object> queryParameters = new HashMap<>();
+            for (Medal medal : medalList) {
+                Map<String, Object> queryParameters = new HashMap<>();
                 queryParameters.put("onlyWorld", "true");
 
                 switch (medal) {
@@ -56,9 +56,9 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
 
         // Second step : adding all other requests
 
-        if(scoreList != null && !scoreList.isEmpty()) {
-            for ( Integer score : scoreList ) {
-                Map<String,Object> queryParameters = new HashMap<>();
+        if (scoreList != null && !scoreList.isEmpty()) {
+            for (Integer score : scoreList) {
+                Map<String, Object> queryParameters = new HashMap<>();
                 queryParameters.put("onlyWorld", "true");
                 queryParameters.put("score", score);
 
@@ -69,19 +69,19 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
         // We don't check the player list for now
         // TODO: check the player list
 
-        if(positionList != null && !positionList.isEmpty()) {
+        if (positionList != null && !positionList.isEmpty()) {
             for (Integer position : positionList) {
-                Map<String,Object> queryParameters = new HashMap<>();
+                Map<String, Object> queryParameters = new HashMap<>();
                 queryParameters.put("onlyWorld", "true");
                 queryParameters.put("length", 1);
-                queryParameters.put("offset", position-1);
+                queryParameters.put("offset", position - 1);
 
                 Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlTop, queryParameters, Request.ResponseType.TIME);
                 requests.add(request);
             }
         }
 
-        if(getMapInfo) {
+        if (getMapInfo) {
             requests.add(new Request(Audience.NADEO_LIVE_SERVICES, generateUrlMapInfo(mapId), new HashMap<>(), Request.ResponseType.MAP_INFO));
         }
 
@@ -96,7 +96,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
     private UserResponse createResponse(List<ResponseData> response, boolean containsPlayerCount) {
         UserResponse userResponse = new UserResponse();
 
-        if(containsPlayerCount) {
+        if (containsPlayerCount) {
             LeaderboardPosition position = (LeaderboardPosition) response.get(0);
             userResponse.addMeta("playerCount", position.getRank());
             response.remove(0);
@@ -104,18 +104,18 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
 
         for (ResponseData responseData : response) {
             // Check the response type
-            if(responseData instanceof LeaderboardPosition leaderboardPosition){
+            if (responseData instanceof LeaderboardPosition leaderboardPosition) {
                 userResponse.addPosition(leaderboardPosition);
             }
 
-            if(responseData instanceof MapInfo mapInfo) {
+            if (responseData instanceof MapInfo mapInfo) {
                 userResponse.setMapInfo(mapInfo);
             }
         }
         return userResponse;
     }
 
-    private MapInfo getMapInfo(String mapId){
+    private MapInfo getMapInfo(String mapId) {
         String finalUrlMapInfo = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO);

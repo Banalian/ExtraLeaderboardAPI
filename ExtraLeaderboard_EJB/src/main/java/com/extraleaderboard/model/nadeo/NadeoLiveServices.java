@@ -59,20 +59,20 @@ public enum NadeoLiveServices {
         this.url = url;
     }
 
-    public String getUrl() {
-        return BASE_URL + url;
-    }
-
-    public Audience getAudience() {
-        return AUDIENCE;
-    }
-
     public static String buildUrl(String url, Map<String, String> urlParameters) {
         String finalUrl = url;
         for (Map.Entry<String, String> entry : urlParameters.entrySet()) {
             finalUrl = finalUrl.replace("{" + entry.getKey() + "}", entry.getValue());
         }
         return finalUrl;
+    }
+
+    public String getUrl() {
+        return BASE_URL + url;
+    }
+
+    public Audience getAudience() {
+        return AUDIENCE;
     }
 
 }
