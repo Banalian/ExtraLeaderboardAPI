@@ -11,7 +11,7 @@ public class ConverterFactory {
                 return new PositionConverter();
             case TIME:
                 return new TimeConverter();
-            case MAP:
+            case MAP_INFO:
                 return new MapConverter();
             default:
                 throw new IllegalArgumentException("The given responseType is not supported");
