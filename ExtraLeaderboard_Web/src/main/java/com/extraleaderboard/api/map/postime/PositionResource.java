@@ -3,6 +3,7 @@ package com.extraleaderboard.api.map.postime;
 
 import com.extraleaderboard.business.implementation.map.postime.PositionBusinessImpl;
 import com.extraleaderboard.business.interfaces.map.postime.PositionBusinessLocal;
+import com.extraleaderboard.model.UserResponse;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class PositionResource {
 
     @GET
     @Produces("application/json")
-    public Object pos(@QueryParam("time") int time) {
+    public UserResponse pos(@QueryParam("time") int time) {
         return positionBusiness.getPosition(mapId, time);
     }
 }

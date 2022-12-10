@@ -2,9 +2,10 @@ package com.extraleaderboard.business.implementation.map.medal;
 
 import com.extraleaderboard.business.interfaces.map.medal.MedalBusinessLocal;
 import com.extraleaderboard.logic.handler.MainHandler;
-import com.extraleaderboard.model.Request;
+import com.extraleaderboard.model.*;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
+import com.extraleaderboard.model.trackmania.Medal;
 
 import javax.ejb.Stateless;
 import java.util.*;
@@ -15,75 +16,107 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
      * {@inheritDoc}
      */
     @Override
-    public Object getAllMedals(String mapId) {
-        Object MapInfo = getMapInfo(mapId);
+    public UserResponse getAllMedals(String mapId) {
+        String finalUrlSurround = generateUrlSurround(mapId);
 
-        List<Object> medals = new ArrayList<>();
-        // TODO: extract the medals from the map info
-        medals.add(getTimeOfMedal(mapId, 0));
-        medals.add(getTimeOfMedal(mapId, 1));
-        medals.add(getTimeOfMedal(mapId, 2));
-        medals.add(getTimeOfMedal(mapId, 3));
+        MapInfo mapInfo = getMapInfo(mapId);
 
-        return medals;
+        List<Request> requests = new ArrayList<>();
+
+        for (Medal medal : Medal.values()) {
+            if(medal == Medal.NONE){
+                continue;
+            }
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("onlyWorld", "true");
+            switch (medal) {
+                case AUTHOR -> parameters.put("score", mapInfo.getAuthorTime());
+                case GOLD -> parameters.put("score", mapInfo.getGoldTime());
+                case SILVER -> parameters.put("score", mapInfo.getSilverTime());
+                case BRONZE -> parameters.put("score", mapInfo.getBronzeTime());
+            }
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION);
+            requests.add(request);
+        }
+
+        MainHandler mainHandler = new MainHandler();
+        List<ResponseData> responseDataList = mainHandler.process(requests);
+
+        UserResponse userResponse = new UserResponse();
+
+        // transform the response data list into a leaderboardposition list
+        for (ResponseData responseData : responseDataList) {
+            LeaderboardPosition leaderboardPosition = (LeaderboardPosition) responseData;
+            userResponse.addPosition(leaderboardPosition);
+        }
+        
+        return userResponse;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getAtMedal(String mapId) {
-        Object mapInfo = getMapInfo(mapId);
-        Object atMedal = getTimeOfMedal(mapId, 0);//TODO: get the at medal time from the map info
+    public UserResponse getAtMedal(String mapId) {
+        MapInfo mapInfo = getMapInfo(mapId);
+        LeaderboardPosition atMedal = getTimeOfMedal(mapId, mapInfo.getAuthorTime());
 
-        return atMedal;
+        UserResponse userResponse = new UserResponse();
+        userResponse.addPosition(atMedal);
+        return userResponse;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getGoldMedal(String mapId) {
-        Object mapInfo = getMapInfo(mapId);
-        Object goldMedal = getTimeOfMedal(mapId, 0);//TODO: get the gold medal time from the map info
+    public UserResponse getGoldMedal(String mapId) {
+        MapInfo mapInfo = getMapInfo(mapId);
+        LeaderboardPosition goldMedal = getTimeOfMedal(mapId, mapInfo.getGoldTime());
 
-        return goldMedal;
+        UserResponse userResponse = new UserResponse();
+        userResponse.addPosition(goldMedal);
+        return userResponse;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getSilverMedal(String mapId) {
-        Object mapInfo = getMapInfo(mapId);
-        Object silverMedal = getTimeOfMedal(mapId, 0);//TODO: get the silver medal time from the map info
+    public UserResponse getSilverMedal(String mapId) {
+        MapInfo mapInfo = getMapInfo(mapId);
+        LeaderboardPosition silverMedal = getTimeOfMedal(mapId, mapInfo.getSilverTime());
 
-        return silverMedal;
+        UserResponse userResponse = new UserResponse();
+        userResponse.addPosition(silverMedal);
+        return userResponse;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getBronzeMedal(String mapId) {
-        Object mapInfo = getMapInfo(mapId);
-        Object bronzeMedal = getTimeOfMedal(mapId, 0);//TODO: get the bronze medal time from the map info
+    public UserResponse getBronzeMedal(String mapId) {
+        MapInfo mapInfo = getMapInfo(mapId);
+        LeaderboardPosition bronzeMedal = getTimeOfMedal(mapId, mapInfo.getBronzeTime());
 
-        return bronzeMedal;
+        UserResponse userResponse = new UserResponse();
+        userResponse.addPosition(bronzeMedal);
+        return userResponse;
     }
 
-    private Object getMapInfo(String mapId){
+    private MapInfo getMapInfo(String mapId){
         String finalUrlMapInfo = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO);
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(Collections.singletonList(request));
+        List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
 
-        return response;
+        return (MapInfo) response.get(0);
     }
 
-    private Object getTimeOfMedal(String mapId, int score){
+    private LeaderboardPosition getTimeOfMedal(String mapId, int score){
         String finalUrlSurround = generateUrlSurround(mapId);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("onlyWorld", "true");
@@ -92,9 +125,9 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION);
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(Collections.singletonList(request));
+        List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
 
-        return response;
+        return (LeaderboardPosition) response.get(0);
     }
 
     private String generateUrlMapInfo(String mapId) {

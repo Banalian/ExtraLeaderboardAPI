@@ -2,13 +2,14 @@ package com.extraleaderboard.business.implementation.map;
 
 import com.extraleaderboard.business.interfaces.map.MapBusinessLocal;
 import com.extraleaderboard.logic.handler.MainHandler;
-import com.extraleaderboard.model.Request;
+import com.extraleaderboard.model.*;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
 
 import javax.ejb.Stateless;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Stateless
@@ -18,22 +19,30 @@ public class MapBusinessImpl implements MapBusinessLocal {
      * {@inheritDoc}
      */
     @Override
-    public Object getAllMapInfo(String mapId) {
+    public UserResponse getAllMapInfo(String mapId) {
         String finalUrl = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, queryParamMap, Request.ResponseType.MAP_INFO);
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(Collections.singletonList(request));
+        List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
 
-        return response;
+        // Extract the MapInfo from the response
+        MapInfo mapInfo = (MapInfo) response.get(0);
+
+        // Create the user response
+        UserResponse userResponse = new UserResponse();
+        userResponse.setMapInfo(mapInfo);
+
+
+        return userResponse;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getPlayerCount(String mapId) {
+    public UserResponse getPlayerCount(String mapId) {
         String finalUrl = generateUrlSurround(mapId);
 
         Map<String, Object> parameters = new HashMap<>();
@@ -44,13 +53,23 @@ public class MapBusinessImpl implements MapBusinessLocal {
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION);
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(Collections.singletonList(request));
-        return response;
+        List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
+
+        // Get the LeaderBoardPosition from the response and put it in a UserResponse object
+        UserResponse userResponse = new UserResponse();
+        LeaderboardPosition leaderboardPosition = (LeaderboardPosition) response.get(0);
+
+        // the position is the player count, extract it and put it in the meta info of the user response
+        userResponse.addMeta("playerCount", leaderboardPosition.getRank());
+
+        return userResponse;
     }
 
     private String generateUrlSurround(String mapId) {
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("mapId", mapId);
+        urlParams.put("above", "0");
+        urlParams.put("below", "0");
 
         return NadeoLiveServices.buildUrl(NadeoLiveServices.SURROUND.getUrl(), urlParams);
     }

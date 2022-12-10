@@ -2,7 +2,7 @@ package com.extraleaderboard.business.implementation.map.record;
 
 import com.extraleaderboard.business.interfaces.map.record.RecordBusinessLocal;
 import com.extraleaderboard.logic.handler.MainHandler;
-import com.extraleaderboard.model.Request;
+import com.extraleaderboard.model.*;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
 import com.extraleaderboard.model.trackmania.Medal;
@@ -17,7 +17,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
      * {@inheritDoc}
      */
     @Override
-    public Object getRecords(String mapId, List<Integer> scoreList, List<Integer> playerList, List<Medal> medalList, List<Integer> positionList, boolean getPlayerInfo) {
+    public UserResponse getRecords(String mapId, List<Integer> scoreList, List<Integer> playerList, List<Medal> medalList, List<Integer> positionList, boolean getPlayerInfo, boolean getMapInfo) {
         // First step : getting the map information if medals are requested
 
         String urlSurround = generateUrlSurround(mapId);
@@ -25,17 +25,30 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
 
         List<Request> requests = new ArrayList<>();
 
-        if(medalList != null && !medalList.isEmpty()) {
-            Object mapInfo = getMapInfo(mapId);
+        // If we want the playerCount, we need to add a request for it and put it first in the list
+        if(getPlayerInfo) {
             Map<String,Object> queryParameters = new HashMap<>();
             queryParameters.put("onlyWorld", "true");
+            queryParameters.put("score", Integer.MAX_VALUE);
+
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION);
+            requests.add(request);
+        }
+
+        MapInfo mapInfo = null;
+
+        if(medalList != null && !medalList.isEmpty()) {
+            mapInfo = getMapInfo(mapId);
             for ( Medal medal : medalList ) {
-                //TODO: get the score from the map info
+                Map<String,Object> queryParameters = new HashMap<>();
+                queryParameters.put("onlyWorld", "true");
+
                 switch (medal) {
-                    case AUTHOR -> queryParameters.put("score", 0);
-                    case GOLD -> queryParameters.put("score", 1);
-                    case SILVER -> queryParameters.put("score", 2);
-                    case BRONZE -> queryParameters.put("score", 3);
+                    case AUTHOR -> queryParameters.put("score", mapInfo.getAuthorTime());
+                    case GOLD -> queryParameters.put("score", mapInfo.getGoldTime());
+                    case SILVER -> queryParameters.put("score", mapInfo.getSilverTime());
+                    case BRONZE -> queryParameters.put("score", mapInfo.getBronzeTime());
+                    default -> throw new IllegalStateException("Unexpected value: " + medal);
                 }
                 requests.add(new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION));
             }
@@ -44,19 +57,19 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
         // Second step : adding all other requests
 
         if(scoreList != null && !scoreList.isEmpty()) {
-            Map<String,Object> queryParameters = new HashMap<>();
-            queryParameters.put("onlyWorld", "true");
-            queryParameters.put("score", scoreList);
+            for ( Integer score : scoreList ) {
+                Map<String,Object> queryParameters = new HashMap<>();
+                queryParameters.put("onlyWorld", "true");
+                queryParameters.put("score", score);
 
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION);
-            requests.add(request);
+                requests.add(new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION));
+            }
         }
 
         // We don't check the player list for now
         // TODO: check the player list
 
         if(positionList != null && !positionList.isEmpty()) {
-
             for (Integer position : positionList) {
                 Map<String,Object> queryParameters = new HashMap<>();
                 queryParameters.put("onlyWorld", "true");
@@ -68,33 +81,49 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
             }
         }
 
-        // If we want the playerCount, we need to add a request for it
-        if(getPlayerInfo) {
-            Map<String,Object> queryParameters = new HashMap<>();
-            queryParameters.put("onlyWorld", "true");
-            queryParameters.put("score", Integer.MAX_VALUE);
-
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION);
-            requests.add(request);
+        if(getMapInfo) {
+            requests.add(new Request(Audience.NADEO_LIVE_SERVICES, generateUrlMapInfo(mapId), new HashMap<>(), Request.ResponseType.MAP_INFO));
         }
 
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(requests);
+        List<ResponseData> response = mainHandler.process(requests);
 
         // Handle response and create the object
-        return response;
+        return createResponse(response, getPlayerInfo);
     }
 
-    private Object getMapInfo(String mapId){
+    private UserResponse createResponse(List<ResponseData> response, boolean containsPlayerCount) {
+        UserResponse userResponse = new UserResponse();
+
+        if(containsPlayerCount) {
+            LeaderboardPosition position = (LeaderboardPosition) response.get(0);
+            userResponse.addMeta("playerCount", position.getRank());
+            response.remove(0);
+        }
+
+        for (ResponseData responseData : response) {
+            // Check the response type
+            if(responseData instanceof LeaderboardPosition leaderboardPosition){
+                userResponse.addPosition(leaderboardPosition);
+            }
+
+            if(responseData instanceof MapInfo mapInfo) {
+                userResponse.setMapInfo(mapInfo);
+            }
+        }
+        return userResponse;
+    }
+
+    private MapInfo getMapInfo(String mapId){
         String finalUrlMapInfo = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO);
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(Collections.singletonList(request));
+        List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
 
-        return response;
+        return (MapInfo) response.get(0);
     }
 
     private String generateUrlMapInfo(String mapId) {

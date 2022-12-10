@@ -1,5 +1,7 @@
 package com.extraleaderboard.business.interfaces.map.postime;
 
+import com.extraleaderboard.model.UserResponse;
+
 import javax.ejb.Local;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public interface TimeBusinessLocal {
      * @param position  position to get the position of
      * @return time of the player on the map
      */
-    Object getTime(String mapId, int position);
+    UserResponse getTime(String mapId, int position);
 
 
     /**
@@ -26,5 +28,5 @@ public interface TimeBusinessLocal {
      * @param positions list of positions to get the position of
      * @return list of times of the players on the map
      */
-    Object getTimes(String mapId, List<Integer> positions);
+    UserResponse getTimes(String mapId, List<Integer> positions);
 }

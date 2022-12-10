@@ -2,7 +2,10 @@ package com.extraleaderboard.business.implementation.map.postime;
 
 import com.extraleaderboard.business.interfaces.map.postime.TimeBusinessLocal;
 import com.extraleaderboard.logic.handler.MainHandler;
+import com.extraleaderboard.model.LeaderboardPosition;
 import com.extraleaderboard.model.Request;
+import com.extraleaderboard.model.ResponseData;
+import com.extraleaderboard.model.UserResponse;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
 
@@ -16,27 +19,31 @@ public class TimeBusinessImpl implements TimeBusinessLocal {
      * {@inheritDoc}
      */
     @Override
-    public Object getTime(String mapId, int position) {
+    public UserResponse getTime(String mapId, int position) {
         String finalUrl = generateUrl(mapId);
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("length", 0);
+        parameters.put("length", 1);
         parameters.put("offset", position - 1);
         parameters.put("onlyWorld", "true");
 
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME);
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(Collections.singletonList(request));
+        List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
 
-        return response;
+        // Get the LeaderBoardPosition from the response and put it in a UserResponse object
+        UserResponse userResponse = new UserResponse();
+        userResponse.addPosition((LeaderboardPosition) response.get(0));
+
+        return userResponse;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getTimes(String mapId, List<Integer> positions) {
+    public UserResponse getTimes(String mapId, List<Integer> positions) {
         String finalUrl = generateUrl(mapId);
 
         List<Request> requests = new ArrayList<>();
@@ -52,9 +59,15 @@ public class TimeBusinessImpl implements TimeBusinessLocal {
         }
 
         MainHandler mainHandler = new MainHandler();
-        Object response = mainHandler.process(requests);
+        List<ResponseData> response = mainHandler.process(requests);
 
-        return response;
+        // Get the LeaderBoardPosition from the response and put it in a UserResponse object
+        UserResponse userResponse = new UserResponse();
+        for (ResponseData responseData : response) {
+            userResponse.addPosition((LeaderboardPosition) responseData);
+        }
+
+        return userResponse;
     }
 
 
