@@ -9,20 +9,20 @@ public enum Audience {
     NADEO_CLUB_SERVICES("NadeoClubServices");
 
     @JsonProperty("audience")
-    private final String audience;
+    private final String audienceName;
 
     Audience(String audience) {
-        this.audience = audience;
+        this.audienceName = audience;
     }
 
-    public String getAudience() {
-        return audience;
+    public String getAudienceName() {
+        return audienceName;
     }
 
     @Override
     public String toString() {
         return "Audience{" +
-                "audience='" + audience + '\'' +
+                "audience='" + audienceName + '\'' +
                 '}';
     }
 }

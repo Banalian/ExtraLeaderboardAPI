@@ -15,6 +15,7 @@ public class NadeoHttpTask implements Runnable {
 
 
     private Request request;
+    @SuppressWarnings("FieldCanBeLocal")
     private NadeoHttpRequest nadeoRequest;
 
     /**

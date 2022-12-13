@@ -17,8 +17,8 @@ import java.util.Map;
 public class Request implements Cloneable {
 
     private String endPoint;
-    private Map<String, Object> queryParamMap;
-    private ResponseType responseType;
+    private final Map<String, Object> queryParamMap;
+    private final ResponseType responseType;
     private NadeoResponse response;
     private Audience audience;
 

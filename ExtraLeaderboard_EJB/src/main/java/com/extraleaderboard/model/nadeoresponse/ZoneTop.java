@@ -16,7 +16,7 @@ public class ZoneTop {
     @JsonProperty("top")
     private List<Top> top = null;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("zoneId")
     public String getZoneId() {
