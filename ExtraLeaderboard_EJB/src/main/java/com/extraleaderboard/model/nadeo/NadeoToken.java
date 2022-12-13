@@ -4,6 +4,7 @@ package com.extraleaderboard.model.nadeo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NadeoToken implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -2171395442889933520L;
     @JsonProperty("accessToken")
     private String accessToken;
