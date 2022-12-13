@@ -10,7 +10,6 @@ public class MapConverter implements Converter {
     public MapInfo convert(NadeoResponse nadeoResponse) {
         if (nadeoResponse instanceof NadeoMapResponse nadMapResponse) {
             //We are dealing with a map response, we assume that the tops list is empty, we just want the info about the map
-            nadMapResponse = (NadeoMapResponse) nadeoResponse;
             if(nadMapResponse != null){
                 MapInfo mapInfo = new MapInfo();
 

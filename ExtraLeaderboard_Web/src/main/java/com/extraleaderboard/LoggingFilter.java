@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 @Provider
 public class LoggingFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
-    Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class);
 
     @Override
     public void filter(ContainerRequestContext reqContext) {
@@ -26,7 +26,7 @@ public class LoggingFilter implements ContainerRequestFilter, ContainerResponseF
         reqContext.setProperty("requestId", requestId);
 
         // Log that a request has been received to X endpoint
-        logger.info("Started request {} to {}. Parameters : {}", requestId, reqContext.getUriInfo().getPath(), reqContext.getUriInfo().getQueryParameters());
+        LOGGER.info("Started request {} to {}. Parameters : {}", requestId, reqContext.getUriInfo().getPath(), reqContext.getUriInfo().getQueryParameters());
 
     }
 
@@ -40,7 +40,7 @@ public class LoggingFilter implements ContainerRequestFilter, ContainerResponseF
         UUID requestId = (UUID) reqContext.getProperty("requestId");
 
         // Print the elapsed time for the request
-        logger.info("Finished request {} to {} in {} ms", requestId, reqContext.getUriInfo().getPath(), TimeUnit.NANOSECONDS.toMillis(duration));
+        LOGGER.info("Finished request {} to {} in {} ms", requestId, reqContext.getUriInfo().getPath(), TimeUnit.NANOSECONDS.toMillis(duration));
     }
 
 }

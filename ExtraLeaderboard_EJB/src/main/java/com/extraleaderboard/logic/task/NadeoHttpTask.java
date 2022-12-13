@@ -19,6 +19,8 @@ public class NadeoHttpTask implements Runnable {
     private NadeoHttpRequest nadeoRequest;
 
     /**
+     * return the request
+     *
      * @return the request of the current task
      */
     public Request getRequest() {
@@ -26,7 +28,9 @@ public class NadeoHttpTask implements Runnable {
     }
 
     /**
-     * @param request
+     * Set the request of the current task
+     *
+     * @param request request to set
      */
     public void setRequest(Request request) {
         this.request = request;
