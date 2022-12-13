@@ -23,7 +23,7 @@ public class MainHandler {
 
     public MainHandler() {
         this.requestHandler = new RequestHandler();
-        this.responseHandler = new UserResponseHandler();
+        this.responseHandler = new ResponseDataHandler();
     }
 
     /**

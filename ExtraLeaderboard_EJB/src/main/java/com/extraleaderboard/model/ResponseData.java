@@ -1,4 +1,4 @@
 package com.extraleaderboard.model;
 
-public class ResponseData {
+public interface ResponseData {
 }

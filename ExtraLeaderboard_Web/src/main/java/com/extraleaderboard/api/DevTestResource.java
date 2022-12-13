@@ -16,9 +16,6 @@ public class DevTestResource {
     @EJB
     private TestBusiness testBusiness;
 
-    public DevTestResource() {
-    }
-
     /**
      * Test method to call the Nadeo API to get a token. Produces text
      *

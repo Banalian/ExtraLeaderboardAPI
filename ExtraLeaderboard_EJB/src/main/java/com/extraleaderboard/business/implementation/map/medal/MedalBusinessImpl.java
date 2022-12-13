@@ -12,6 +12,12 @@ import java.util.*;
 
 @Stateless
 public class MedalBusinessImpl implements MedalBusinessLocal {
+
+    /**
+     * Name of the score parameter
+     */
+    public static final String SCORE = "score";
+
     /**
      * {@inheritDoc}
      */
@@ -30,10 +36,10 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("onlyWorld", "true");
             switch (medal) {
-                case AUTHOR -> parameters.put("score", mapInfo.getAuthorTime());
-                case GOLD -> parameters.put("score", mapInfo.getGoldTime());
-                case SILVER -> parameters.put("score", mapInfo.getSilverTime());
-                case BRONZE -> parameters.put("score", mapInfo.getBronzeTime());
+                case AUTHOR -> parameters.put(SCORE, mapInfo.getAuthorTime());
+                case GOLD -> parameters.put(SCORE, mapInfo.getGoldTime());
+                case SILVER -> parameters.put(SCORE, mapInfo.getSilverTime());
+                case BRONZE -> parameters.put(SCORE, mapInfo.getBronzeTime());
             }
             Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION);
             requests.add(request);
@@ -44,7 +50,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
 
         UserResponse userResponse = new UserResponse();
 
-        // transform the response data list into a leaderboardposition list
+        // transform the response data list into a LeaderboardPosition list
         for (ResponseData responseData : responseDataList) {
             LeaderboardPosition leaderboardPosition = (LeaderboardPosition) responseData;
             userResponse.addPosition(leaderboardPosition);
@@ -120,7 +126,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
         String finalUrlSurround = generateUrlSurround(mapId);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("onlyWorld", "true");
-        parameters.put("score", score);
+        parameters.put(SCORE, score);
 
         Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION);
 

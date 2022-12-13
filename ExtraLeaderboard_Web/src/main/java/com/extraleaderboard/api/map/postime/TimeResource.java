@@ -15,7 +15,7 @@ import javax.ws.rs.QueryParam;
 public class TimeResource {
 
     //@EJB
-    private TimeBusinessLocal timeBusiness = new TimeBusinessImpl();
+    private final TimeBusinessLocal timeBusiness = new TimeBusinessImpl();
 
     /**
      * ID of the map to get records from

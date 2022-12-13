@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NadeoTimeResponse extends NadeoResponse {
+public class NadeoTimeResponse implements NadeoResponse {
 
     @JsonProperty("groupUid")
     private String groupUid;
@@ -16,7 +16,7 @@ public class NadeoTimeResponse extends NadeoResponse {
     @JsonProperty("tops")
     private List<ZoneTop> zoneTops = null;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("groupUid")
     public String getGroupUid() {

@@ -1,6 +1,6 @@
 package com.extraleaderboard.model;
 
-public class LeaderboardPosition extends ResponseData {
+public class LeaderboardPosition implements ResponseData {
     private int time;
     private int rank;
 

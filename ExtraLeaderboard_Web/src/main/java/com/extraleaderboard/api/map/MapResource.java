@@ -19,7 +19,7 @@ import javax.ws.rs.Produces;
 public class MapResource {
 
     //@EJB
-    private MapBusinessLocal mapBusiness = new MapBusinessImpl();
+    private final MapBusinessLocal mapBusiness = new MapBusinessImpl();
 
     /**
      * Map id, needed to get the right information

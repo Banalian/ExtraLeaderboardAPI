@@ -2,11 +2,14 @@ package com.extraleaderboard.logic.converter;
 
 import com.extraleaderboard.model.Request;
 
+/**
+ * Represents
+ */
 public class ConverterFactory {
 
-    public static Converter getConverter(Request.ResponseType responseType) {
+    public static Converter getConverter(Request.ResponseType responseType){
 
-        switch (responseType) {
+        switch (responseType){
             case POSITION:
                 return new PositionConverter();
             case TIME:

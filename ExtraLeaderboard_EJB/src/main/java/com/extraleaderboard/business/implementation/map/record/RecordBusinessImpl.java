@@ -13,6 +13,10 @@ import java.util.*;
 @Stateless
 public class RecordBusinessImpl implements RecordBusinessLocal {
 
+    public static final String ONLY_WORLD_PARAM_NAME = "onlyWorld";
+    public static final String SCORE_PARAM_NAME = "score";
+    public static final String MAP_ID_URL_NAME = "mapId";
+
     /**
      * {@inheritDoc}
      */
@@ -28,26 +32,26 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
         // If we want the playerCount, we need to add a request for it and put it first in the list
         if (getPlayerInfo) {
             Map<String, Object> queryParameters = new HashMap<>();
-            queryParameters.put("onlyWorld", "true");
-            queryParameters.put("score", Integer.MAX_VALUE);
+            queryParameters.put(ONLY_WORLD_PARAM_NAME, "true");
+            queryParameters.put(SCORE_PARAM_NAME, Integer.MAX_VALUE);
 
             Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION);
             requests.add(request);
         }
 
-        MapInfo mapInfo = null;
+        MapInfo mapInfo;
 
         if (medalList != null && !medalList.isEmpty()) {
             mapInfo = getMapInfo(mapId);
             for (Medal medal : medalList) {
                 Map<String, Object> queryParameters = new HashMap<>();
-                queryParameters.put("onlyWorld", "true");
+                queryParameters.put(ONLY_WORLD_PARAM_NAME, "true");
 
                 switch (medal) {
-                    case AUTHOR -> queryParameters.put("score", mapInfo.getAuthorTime());
-                    case GOLD -> queryParameters.put("score", mapInfo.getGoldTime());
-                    case SILVER -> queryParameters.put("score", mapInfo.getSilverTime());
-                    case BRONZE -> queryParameters.put("score", mapInfo.getBronzeTime());
+                    case AUTHOR -> queryParameters.put(SCORE_PARAM_NAME, mapInfo.getAuthorTime());
+                    case GOLD -> queryParameters.put(SCORE_PARAM_NAME, mapInfo.getGoldTime());
+                    case SILVER -> queryParameters.put(SCORE_PARAM_NAME, mapInfo.getSilverTime());
+                    case BRONZE -> queryParameters.put(SCORE_PARAM_NAME, mapInfo.getBronzeTime());
                     default -> throw new IllegalStateException("Unexpected value: " + medal);
                 }
                 requests.add(new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION));
@@ -59,8 +63,8 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
         if (scoreList != null && !scoreList.isEmpty()) {
             for (Integer score : scoreList) {
                 Map<String, Object> queryParameters = new HashMap<>();
-                queryParameters.put("onlyWorld", "true");
-                queryParameters.put("score", score);
+                queryParameters.put(ONLY_WORLD_PARAM_NAME, "true");
+                queryParameters.put(SCORE_PARAM_NAME, score);
 
                 requests.add(new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION));
             }
@@ -72,7 +76,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
         if (positionList != null && !positionList.isEmpty()) {
             for (Integer position : positionList) {
                 Map<String, Object> queryParameters = new HashMap<>();
-                queryParameters.put("onlyWorld", "true");
+                queryParameters.put(ONLY_WORLD_PARAM_NAME, "true");
                 queryParameters.put("length", 1);
                 queryParameters.put("offset", position - 1);
 
@@ -128,21 +132,21 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
 
     private String generateUrlMapInfo(String mapId) {
         Map<String, String> urlParams = new HashMap<>();
-        urlParams.put("mapId", mapId);
+        urlParams.put(MAP_ID_URL_NAME, mapId);
 
         return NadeoLiveServices.buildUrl(NadeoLiveServices.MAP_INFO.getUrl(), urlParams);
     }
 
     private String generateUrlTop(String mapId) {
         Map<String, String> urlParams = new HashMap<>();
-        urlParams.put("mapId", mapId);
+        urlParams.put(MAP_ID_URL_NAME, mapId);
 
         return NadeoLiveServices.buildUrl(NadeoLiveServices.MAP_LEADERBOARD.getUrl(), urlParams);
     }
 
     private String generateUrlSurround(String mapId) {
         Map<String, String> urlParams = new HashMap<>();
-        urlParams.put("mapId", mapId);
+        urlParams.put(MAP_ID_URL_NAME, mapId);
         urlParams.put("above", "0");
         urlParams.put("below", "0");
 

@@ -19,7 +19,7 @@ import java.util.List;
 public class RecordResource {
 
     //@EJB
-    private RecordBusinessLocal recordBusiness = new RecordBusinessImpl();
+    private final RecordBusinessLocal recordBusiness = new RecordBusinessImpl();
 
     /**
      * ID of the map to get records from

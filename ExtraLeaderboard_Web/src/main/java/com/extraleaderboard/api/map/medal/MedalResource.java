@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 public class MedalResource {
 
     //@EJB
-    private MedalBusinessLocal medalBusiness = new MedalBusinessImpl();
+    private final MedalBusinessLocal medalBusiness = new MedalBusinessImpl();
 
     /**
      * Map id, needed to get the right information

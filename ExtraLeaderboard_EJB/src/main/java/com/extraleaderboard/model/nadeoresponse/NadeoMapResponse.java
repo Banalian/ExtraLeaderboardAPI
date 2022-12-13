@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NadeoMapResponse extends NadeoResponse {
+public class NadeoMapResponse implements NadeoResponse {
 
     @JsonProperty("uid")
     private String uid;
@@ -53,7 +53,7 @@ public class NadeoMapResponse extends NadeoResponse {
     @JsonProperty("collectionName")
     private String collectionName;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("uid")
     public String getUid() {

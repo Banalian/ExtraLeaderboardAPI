@@ -19,7 +19,7 @@ public class Top {
     @JsonProperty("score")
     private Integer score;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("accountId")
     public String getAccountId() {

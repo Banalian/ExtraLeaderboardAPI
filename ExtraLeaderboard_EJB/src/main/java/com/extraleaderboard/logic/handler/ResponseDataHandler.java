@@ -10,7 +10,8 @@ import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserResponseHandler implements Handler {
+
+public class ResponseDataHandler implements Handler{
 
 
     /**

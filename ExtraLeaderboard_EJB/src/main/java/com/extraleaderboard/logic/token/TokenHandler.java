@@ -121,7 +121,7 @@ public class TokenHandler {
                 .path("v2/authentication/token/ubiservices");
 
         // create json body containing the audience
-        JsonNode audienceJson = new ObjectMapper().createObjectNode().put("audience", audience.getAudience());
+        JsonNode audienceJson = new ObjectMapper().createObjectNode().put("audience", audience.getAudienceName());
 
         return target.request()
                 .header("Content-Type", "application/json")
