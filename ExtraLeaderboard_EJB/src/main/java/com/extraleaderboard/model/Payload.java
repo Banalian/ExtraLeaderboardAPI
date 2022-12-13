@@ -28,14 +28,14 @@ public class Payload {
     }
 
     /**
-     * @param newRequests
+     * @param newRequests new list of requests to be set
      */
     public void setRequests(List<Request> newRequests) {
         requests = newRequests;
     }
 
     /**
-     * @param index
+     * @param index index of the request we want to get
      * @return the request at the index in the request list of the current Payload
      */
     public Request getRequest(int index) {
@@ -50,7 +50,7 @@ public class Payload {
     }
 
     /**
-     * @param newResponseDataList
+     * @param newResponseDataList new list of ResponseData to be set
      */
     public void setResponseDataList(List<ResponseData> newResponseDataList) {
         this.responseDataList = newResponseDataList;
