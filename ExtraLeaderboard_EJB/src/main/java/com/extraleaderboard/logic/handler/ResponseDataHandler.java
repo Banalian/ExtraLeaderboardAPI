@@ -48,9 +48,15 @@ public class ResponseDataHandler implements Handler{
         List<ResponseData> responseDataList = new ArrayList<>();
 
         for (Request request : requests) {
-            currentResponse = request.getResponse();
-            converter = ConverterFactory.getConverter(request.getResponseType());
-            responseDataList.add(converter.convert(currentResponse));
+            try{
+                currentResponse = request.getResponse();
+                converter = ConverterFactory.getConverter(request.getResponseType());
+                responseDataList.add(converter.convert(currentResponse));
+            } catch(IllegalArgumentException e){
+                // TODO: add an error response to the list based on the request/response
+                // For now we don't do anything with the error and just continue the loop
+            }
+
         }
 
         payloadToHandle.setResponseDataList(responseDataList);
