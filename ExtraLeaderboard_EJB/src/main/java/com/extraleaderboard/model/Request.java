@@ -5,6 +5,7 @@ import com.extraleaderboard.model.nadeoresponse.NadeoMapResponse;
 import com.extraleaderboard.model.nadeoresponse.NadeoPositionResponse;
 import com.extraleaderboard.model.nadeoresponse.NadeoResponse;
 import com.extraleaderboard.model.nadeoresponse.NadeoTimeResponse;
+import com.extraleaderboard.model.trackmania.EntryType;
 
 import java.util.Collections;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class Request implements Cloneable {
     private String endPoint;
     private final Map<String, Object> queryParamMap;
     private final ResponseType responseType;
-    private final RequestType requestType;
+    private final EntryType entryType;
     private NadeoResponse response;
     private Audience audience;
 
@@ -29,21 +30,22 @@ public class Request implements Cloneable {
      * @param newUrl           the targeted url (including url params)
      * @param newQueryParamMap map of all query parameters
      * @param newResponseType  enum specifying the expected response type
+     * @param entryType        enum specifying the entry type of the request
      */
-    public Request(Audience audience, String newUrl, Map<String, Object> newQueryParamMap, ResponseType newResponseType, RequestType requestType) {
+    public Request(Audience audience, String newUrl, Map<String, Object> newQueryParamMap, ResponseType newResponseType, EntryType entryType) {
         this.audience = audience;
         this.endPoint = newUrl;
         this.queryParamMap = newQueryParamMap;
         this.responseType = newResponseType;
-        this.requestType = requestType;
+        this.entryType = entryType;
     }
 
     public ResponseType getResponseType() {
         return responseType;
     }
 
-    public RequestType getRequestType() {
-        return requestType;
+    public EntryType getEntryType() {
+        return entryType;
     }
 
     public Map<String, Object> getQueryParamMap() {
@@ -110,27 +112,6 @@ public class Request implements Cloneable {
         }
 
 
-    }
-
-    /**
-     * Enum to represent the different types of requests. Used by the plugin to more easily determined which results comes from which request.
-     */
-    public enum RequestType {
-        POSITION(0),
-        TIME(1),
-        PB(2),
-        MEDAL(3),
-        OTHER(4);
-
-        private final int reqType;
-
-        RequestType(int reqType) {
-            this.reqType = reqType;
-        }
-
-        public int getReqType() {
-            return reqType;
-        }
     }
 
 }

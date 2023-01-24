@@ -5,6 +5,7 @@ import com.extraleaderboard.logic.handler.MainHandler;
 import com.extraleaderboard.model.*;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
+import com.extraleaderboard.model.trackmania.EntryType;
 import com.extraleaderboard.model.trackmania.Medal;
 
 import javax.ejb.Stateless;
@@ -41,7 +42,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
                 case SILVER -> parameters.put(SCORE, mapInfo.getSilverTime());
                 case BRONZE -> parameters.put(SCORE, mapInfo.getBronzeTime());
             }
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION, Request.RequestType.MEDAL);
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION, EntryType.MEDAL);
             requests.add(request);
         }
 
@@ -114,7 +115,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
     private MapInfo getMapInfo(String mapId) {
         String finalUrlMapInfo = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO, Request.RequestType.OTHER);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO, EntryType.OTHER);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
@@ -128,7 +129,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
         parameters.put("onlyWorld", "true");
         parameters.put(SCORE, score);
 
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION, Request.RequestType.MEDAL);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION, EntryType.MEDAL);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));

@@ -5,6 +5,7 @@ import com.extraleaderboard.logic.handler.MainHandler;
 import com.extraleaderboard.model.*;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
+import com.extraleaderboard.model.trackmania.EntryType;
 
 import javax.ejb.Stateless;
 import java.util.Collections;
@@ -22,7 +23,7 @@ public class MapBusinessImpl implements MapBusinessLocal {
     public UserResponse getAllMapInfo(String mapId) {
         String finalUrl = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, queryParamMap, Request.ResponseType.MAP_INFO, Request.RequestType.OTHER);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, queryParamMap, Request.ResponseType.MAP_INFO, EntryType.OTHER);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
@@ -50,7 +51,7 @@ public class MapBusinessImpl implements MapBusinessLocal {
         // Max value of a 32 bits integer
         parameters.put("score", Integer.MAX_VALUE);
 
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, Request.RequestType.OTHER);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, EntryType.OTHER);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));

@@ -8,6 +8,7 @@ import com.extraleaderboard.model.ResponseData;
 import com.extraleaderboard.model.UserResponse;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
+import com.extraleaderboard.model.trackmania.EntryType;
 
 import javax.ejb.Stateless;
 import java.util.*;
@@ -26,7 +27,7 @@ public class PositionBusinessImpl implements PositionBusinessLocal {
         parameters.put("score", time);
         parameters.put("onlyWorld", "true");
 
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, Request.RequestType.POSITION);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, EntryType.POSITION);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
@@ -52,7 +53,7 @@ public class PositionBusinessImpl implements PositionBusinessLocal {
             parameters.put("score", time);
             parameters.put("onlyWorld", "true");
 
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, Request.RequestType.POSITION);
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, EntryType.POSITION);
             requests.add(request);
         }
 

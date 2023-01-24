@@ -5,6 +5,7 @@ import com.extraleaderboard.logic.handler.MainHandler;
 import com.extraleaderboard.model.*;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
+import com.extraleaderboard.model.trackmania.EntryType;
 import com.extraleaderboard.model.trackmania.Medal;
 
 import javax.ejb.Stateless;
@@ -35,7 +36,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
             queryParameters.put(ONLY_WORLD_PARAM_NAME, "true");
             queryParameters.put(SCORE_PARAM_NAME, Integer.MAX_VALUE);
 
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION, Request.RequestType.OTHER);
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION, EntryType.OTHER);
             requests.add(request);
         }
 
@@ -54,7 +55,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
                     case BRONZE -> queryParameters.put(SCORE_PARAM_NAME, mapInfo.getBronzeTime());
                     default -> throw new IllegalStateException("Unexpected value: " + medal);
                 }
-                requests.add(new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION, Request.RequestType.MEDAL));
+                requests.add(new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION, EntryType.MEDAL));
             }
         }
 
@@ -66,7 +67,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
                 queryParameters.put(ONLY_WORLD_PARAM_NAME, "true");
                 queryParameters.put(SCORE_PARAM_NAME, score);
 
-                requests.add(new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION, Request.RequestType.TIME));
+                requests.add(new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION, EntryType.TIME));
             }
         }
 
@@ -80,13 +81,13 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
                 queryParameters.put("length", 1);
                 queryParameters.put("offset", position - 1);
 
-                Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlTop, queryParameters, Request.ResponseType.TIME, Request.RequestType.POSITION);
+                Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlTop, queryParameters, Request.ResponseType.TIME, EntryType.POSITION);
                 requests.add(request);
             }
         }
 
         if (getMapInfo) {
-            requests.add(new Request(Audience.NADEO_LIVE_SERVICES, generateUrlMapInfo(mapId), new HashMap<>(), Request.ResponseType.MAP_INFO, Request.RequestType.OTHER));
+            requests.add(new Request(Audience.NADEO_LIVE_SERVICES, generateUrlMapInfo(mapId), new HashMap<>(), Request.ResponseType.MAP_INFO, EntryType.OTHER));
         }
 
 
@@ -122,7 +123,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
     private MapInfo getMapInfo(String mapId) {
         String finalUrlMapInfo = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO, Request.RequestType.OTHER);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO, EntryType.OTHER);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
