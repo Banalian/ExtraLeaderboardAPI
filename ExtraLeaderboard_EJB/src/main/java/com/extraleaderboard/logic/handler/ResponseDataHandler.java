@@ -2,6 +2,7 @@ package com.extraleaderboard.logic.handler;
 
 import com.extraleaderboard.logic.converter.Converter;
 import com.extraleaderboard.logic.converter.ConverterFactory;
+import com.extraleaderboard.model.LeaderboardPosition;
 import com.extraleaderboard.model.Payload;
 import com.extraleaderboard.model.Request;
 import com.extraleaderboard.model.ResponseData;
@@ -51,7 +52,13 @@ public class ResponseDataHandler implements Handler{
             try{
                 currentResponse = request.getResponse();
                 converter = ConverterFactory.getConverter(request.getResponseType());
-                responseDataList.add(converter.convert(currentResponse));
+                ResponseData responseData = converter.convert(currentResponse);
+                // We're breaking some SOLID rule here, but I do not wish to change a big part
+                // of the structure to add this single functionality
+                if(responseData instanceof LeaderboardPosition entryResponse){
+                    entryResponse.setEntryType(request.getEntryType());
+                }
+                responseDataList.add(responseData);
             } catch(IllegalArgumentException e){
                 // TODO: add an error response to the list based on the request/response
                 // For now we don't do anything with the error and just continue the loop

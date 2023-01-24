@@ -8,6 +8,7 @@ import com.extraleaderboard.model.ResponseData;
 import com.extraleaderboard.model.UserResponse;
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoLiveServices;
+import com.extraleaderboard.model.trackmania.EntryType;
 
 import javax.ejb.Stateless;
 import java.util.*;
@@ -27,7 +28,7 @@ public class TimeBusinessImpl implements TimeBusinessLocal {
         parameters.put("offset", position - 1);
         parameters.put("onlyWorld", "true");
 
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME, Request.RequestType.TIME);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME, EntryType.TIME);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
@@ -54,7 +55,7 @@ public class TimeBusinessImpl implements TimeBusinessLocal {
             parameters.put("offset", position - 1);
             parameters.put("onlyWorld", "true");
 
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME, Request.RequestType.TIME);
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME, EntryType.TIME);
             requests.add(request);
         }
 
