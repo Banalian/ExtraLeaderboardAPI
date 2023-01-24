@@ -37,7 +37,7 @@ public enum NadeoLiveServices {
      * </ul>
      * </p>
      */
-    SURROUND("/api/token/leaderboard/group/Personal_Best/map/{mapId}/surround/{above}/{below}"),
+    SURROUND("/api/token/leaderboard/group/Personal_Best/map/{mapId}/surround/{below}/{above}"),
 
     /**
      * Get the information of a map

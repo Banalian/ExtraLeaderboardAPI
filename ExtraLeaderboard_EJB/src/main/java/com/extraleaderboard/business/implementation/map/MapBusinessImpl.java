@@ -22,7 +22,7 @@ public class MapBusinessImpl implements MapBusinessLocal {
     public UserResponse getAllMapInfo(String mapId) {
         String finalUrl = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, queryParamMap, Request.ResponseType.MAP_INFO);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, queryParamMap, Request.ResponseType.MAP_INFO, Request.RequestType.OTHER);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
@@ -50,7 +50,7 @@ public class MapBusinessImpl implements MapBusinessLocal {
         // Max value of a 32 bits integer
         parameters.put("score", Integer.MAX_VALUE);
 
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, Request.RequestType.OTHER);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));

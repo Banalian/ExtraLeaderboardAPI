@@ -41,7 +41,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
                 case SILVER -> parameters.put(SCORE, mapInfo.getSilverTime());
                 case BRONZE -> parameters.put(SCORE, mapInfo.getBronzeTime());
             }
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION);
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION, Request.RequestType.MEDAL);
             requests.add(request);
         }
 
@@ -114,7 +114,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
     private MapInfo getMapInfo(String mapId) {
         String finalUrlMapInfo = generateUrlMapInfo(mapId);
         Map<String, Object> queryParamMap = new HashMap<>();
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlMapInfo, queryParamMap, Request.ResponseType.MAP_INFO, Request.RequestType.OTHER);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
@@ -128,7 +128,7 @@ public class MedalBusinessImpl implements MedalBusinessLocal {
         parameters.put("onlyWorld", "true");
         parameters.put(SCORE, score);
 
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrlSurround, parameters, Request.ResponseType.POSITION, Request.RequestType.MEDAL);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
