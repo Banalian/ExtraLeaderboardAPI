@@ -27,7 +27,7 @@ public class TimeBusinessImpl implements TimeBusinessLocal {
         parameters.put("offset", position - 1);
         parameters.put("onlyWorld", "true");
 
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME, Request.RequestType.TIME);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
@@ -54,7 +54,7 @@ public class TimeBusinessImpl implements TimeBusinessLocal {
             parameters.put("offset", position - 1);
             parameters.put("onlyWorld", "true");
 
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME);
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.TIME, Request.RequestType.TIME);
             requests.add(request);
         }
 

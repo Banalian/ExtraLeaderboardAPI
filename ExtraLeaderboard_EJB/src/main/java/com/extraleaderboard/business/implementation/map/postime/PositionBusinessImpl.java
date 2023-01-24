@@ -26,7 +26,7 @@ public class PositionBusinessImpl implements PositionBusinessLocal {
         parameters.put("score", time);
         parameters.put("onlyWorld", "true");
 
-        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION);
+        Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, Request.RequestType.POSITION);
 
         MainHandler mainHandler = new MainHandler();
         List<ResponseData> response = mainHandler.process(Collections.singletonList(request));
@@ -52,7 +52,7 @@ public class PositionBusinessImpl implements PositionBusinessLocal {
             parameters.put("score", time);
             parameters.put("onlyWorld", "true");
 
-            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION);
+            Request request = new Request(Audience.NADEO_LIVE_SERVICES, finalUrl, parameters, Request.ResponseType.POSITION, Request.RequestType.POSITION);
             requests.add(request);
         }
 

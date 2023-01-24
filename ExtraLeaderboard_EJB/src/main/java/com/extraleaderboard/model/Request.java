@@ -19,6 +19,7 @@ public class Request implements Cloneable {
     private String endPoint;
     private final Map<String, Object> queryParamMap;
     private final ResponseType responseType;
+    private final RequestType requestType;
     private NadeoResponse response;
     private Audience audience;
 
@@ -29,15 +30,20 @@ public class Request implements Cloneable {
      * @param newQueryParamMap map of all query parameters
      * @param newResponseType  enum specifying the expected response type
      */
-    public Request(Audience audience, String newUrl, Map<String, Object> newQueryParamMap, ResponseType newResponseType) {
+    public Request(Audience audience, String newUrl, Map<String, Object> newQueryParamMap, ResponseType newResponseType, RequestType requestType) {
         this.audience = audience;
         this.endPoint = newUrl;
         this.queryParamMap = newQueryParamMap;
         this.responseType = newResponseType;
+        this.requestType = requestType;
     }
 
     public ResponseType getResponseType() {
         return responseType;
+    }
+
+    public RequestType getRequestType() {
+        return requestType;
     }
 
     public Map<String, Object> getQueryParamMap() {
@@ -104,6 +110,27 @@ public class Request implements Cloneable {
         }
 
 
+    }
+
+    /**
+     * Enum to represent the different types of requests. Used by the plugin to more easily determined which results comes from which request.
+     */
+    public enum RequestType {
+        POSITION(0),
+        TIME(1),
+        PB(2),
+        MEDAL(3),
+        OTHER(4);
+
+        private final int reqType;
+
+        RequestType(int reqType) {
+            this.reqType = reqType;
+        }
+
+        public int getReqType() {
+            return reqType;
+        }
     }
 
 }
