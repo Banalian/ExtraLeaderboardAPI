@@ -1,5 +1,6 @@
 package com.extraleaderboard;
 
+import com.extraleaderboard.model.UserResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,16 @@ public class LoggingFilter implements ContainerRequestFilter, ContainerResponseF
         long duration = requestFinishTime - requestStartTime;
 
         UUID requestId = (UUID) reqContext.getProperty("requestId");
+
+        // Get the response and add the uuid to it
+        Object entity = resContext.getEntity();
+        if (entity instanceof UserResponse userResponse) {
+            userResponse.addMeta("requestId", requestId.toString());
+        } else {
+            // Write an error message in the log telling what happened
+            LOGGER.error("The response entity is not an instance of UserResponse, it is an instance of {} (request : {})", entity.getClass().getName(), requestId);
+        }
+
 
         // Print the elapsed time for the request
         LOGGER.info("Finished request {} to {} in {} ms", requestId, reqContext.getUriInfo().getPath(), TimeUnit.NANOSECONDS.toMillis(duration));
