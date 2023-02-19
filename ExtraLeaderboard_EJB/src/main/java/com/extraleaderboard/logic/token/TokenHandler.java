@@ -15,6 +15,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 
 /**
@@ -52,6 +54,8 @@ public class TokenHandler {
      */
     private final Client client = ClientBuilder.newClient();
 
+    private final Map<Audience, Timer> timers = new HashMap<>();
+
     /**
      * Get the {@link NadeoToken} for the given audience
      *
@@ -69,6 +73,14 @@ public class TokenHandler {
             long delay = (long) 55 * (long) 60 * 1000;
 
             timer.schedule(new TokenRefreshTask(audience), delay, delay);
+            Timer oldTimer = timers.put(audience, timer);
+            // Cancel the old timer if it exists
+            // Shouldn't happen, but we'd rather be safe than sorry, we don't want to have multiple timers running
+            if (oldTimer != null) {
+                oldTimer.cancel();
+                oldTimer.purge();
+                LOGGER.info("Old timer cancelled for audience {}", audience);
+            }
             LOGGER.info("Refresh task scheduled for audience {}", audience);
         }
 
@@ -139,4 +151,7 @@ public class TokenHandler {
         return Base64.getEncoder().encodeToString((UBISOFT_MAIL + ":" + UBISOFT_PASSWORD).getBytes());
     }
 
+    public Map<Audience, Timer> getTimers() {
+        return timers;
+    }
 }

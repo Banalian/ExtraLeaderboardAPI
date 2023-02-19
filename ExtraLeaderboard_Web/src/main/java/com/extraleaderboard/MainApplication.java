@@ -12,7 +12,7 @@ public class MainApplication extends Application {
     public MainApplication() {
         super();
 
-        // Workaround : Create the needed token
+        // Workaround : Request the token when the application is deployed
         TokenFactory.getToken(Audience.NADEO_LIVE_SERVICES);
     }
 }
