@@ -61,7 +61,13 @@ public class MapBusinessImpl implements MapBusinessLocal {
         LeaderboardPosition leaderboardPosition = (LeaderboardPosition) response.get(0);
 
         // the position is the player count, extract it and put it in the meta info of the user response
-        userResponse.addMeta("playerCount", leaderboardPosition.getRank());
+        int playerCount = leaderboardPosition.getRank();
+        // if the player count is below 10k, remove 1 to get the real player count
+        // we don't do this above 10k since the results are approximated to the 10k after that
+        if (playerCount < 10000) {
+            playerCount--;
+        }
+        userResponse.addMeta("playerCount", playerCount);
 
         return userResponse;
     }
