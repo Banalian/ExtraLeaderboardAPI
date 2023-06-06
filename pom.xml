@@ -12,6 +12,7 @@
         <module>ExtraLeaderboard_Web</module>
         <module>ExtraLeaderboard_EJB</module>
         <module>ExtraLeaderboardAPI_EAR</module>
+        <module>ExtraLeaderboard_TokenManager</module>
     </modules>
 
     <properties>

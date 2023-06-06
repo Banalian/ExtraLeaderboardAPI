@@ -1,4 +1,4 @@
-package com.extraleaderboard.logic.token;
+package token;
 
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoToken;
