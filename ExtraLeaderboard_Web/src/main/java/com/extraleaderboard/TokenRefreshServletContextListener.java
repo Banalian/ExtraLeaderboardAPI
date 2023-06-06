@@ -18,7 +18,7 @@ public class TokenRefreshServletContextListener implements ServletContextListene
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-
+        // Nothing to do when the application is deployed
     }
 
     @Override

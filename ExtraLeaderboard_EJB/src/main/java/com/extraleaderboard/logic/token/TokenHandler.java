@@ -22,7 +22,7 @@ import java.util.Timer;
 /**
  * Class in charge of creating tokens and handling them/renewing them
  */
-public class TokenHandler {
+public class TokenHandler implements ITokenHandler {
 
     /**
      * Authorization header name used to get the token
