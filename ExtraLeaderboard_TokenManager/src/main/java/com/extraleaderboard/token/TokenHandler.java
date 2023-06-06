@@ -1,4 +1,4 @@
-package token;
+package com.extraleaderboard.token;
 
 import com.extraleaderboard.model.TokenStorage;
 import com.extraleaderboard.model.nadeo.Audience;
@@ -14,6 +14,9 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +39,9 @@ public class TokenHandler implements ITokenHandler {
      * Authorization header value used to get the token from the nadeo API
      */
     public static final String NADEO_AUTH_NAME = "nadeo_v1";
+
+    public static final String TOKEN_FOLDER = "/tokens/";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenHandler.class);
     /**
      * Email of the ubisoft account used to get the token
@@ -65,7 +71,8 @@ public class TokenHandler implements ITokenHandler {
     public NadeoToken getNadeoToken(Audience audience) {
         if (!TokenStorage.hasToken(audience)) {
             LOGGER.info("No token found for audience {}, creating a new one", audience);
-            TokenStorage.setToken(audience, createNewToken(audience));
+            NadeoToken token = createNewToken(audience);
+            TokenStorage.setToken(audience, token);
 
             LOGGER.info("Token created for audience {}, scheduling the refresh task", audience);
             Timer timer = new Timer();
@@ -82,6 +89,15 @@ public class TokenHandler implements ITokenHandler {
                 LOGGER.info("Old timer cancelled for audience {}", audience);
             }
             LOGGER.info("Refresh task scheduled for audience {}", audience);
+
+            // write the token to a file
+            try {
+                Path path = Path.of(TokenHandler.TOKEN_FOLDER, audience.getAudienceName().toLowerCase() + ".token");
+                String content = token.getAccessToken() + "\n" + token.getRefreshToken();
+                Files.write(path, content.getBytes());
+            } catch (IOException e) {
+                LOGGER.error("Error while writing token to file", e);
+            }
         }
 
         return TokenStorage.getToken(audience);

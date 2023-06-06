@@ -1,4 +1,4 @@
-package token;
+package com.extraleaderboard.token;
 
 import com.extraleaderboard.model.TokenStorage;
 import com.extraleaderboard.model.nadeo.Audience;
@@ -10,9 +10,14 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.TimerTask;
 
-import static com.extraleaderboard.logic.token.TokenHandler.NADEO_AUTH_NAME;
+import static com.extraleaderboard.token.TokenHandler.NADEO_AUTH_NAME;
+
 
 public class TokenRefreshTask extends TimerTask {
 
@@ -42,6 +47,16 @@ public class TokenRefreshTask extends TimerTask {
         NadeoToken token = refreshNadeoToken();
         TokenStorage.setToken(audience, token);
         LOGGER.info("Token refreshed for audience {}", audience);
+
+        // write the token to a file
+        try {
+            String folder = TokenHandler.TOKEN_FOLDER;
+            Path path = Path.of(folder, audience.getAudienceName().toLowerCase() + ".token");
+            String content = token.getAccessToken() + "\n" + token.getRefreshToken();
+            Files.write(path, content.getBytes());
+        } catch (IOException e) {
+            LOGGER.error("Error while writing token to file", e);
+        }
     }
 
     /**

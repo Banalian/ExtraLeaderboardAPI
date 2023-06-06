@@ -1,4 +1,4 @@
-package token;
+package com.extraleaderboard.token;
 
 import com.extraleaderboard.model.nadeo.Audience;
 import com.extraleaderboard.model.nadeo.NadeoToken;

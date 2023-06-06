@@ -1,6 +1,6 @@
 package com.extraleaderboard;
 
-import com.extraleaderboard.logic.token.TokenFactory;
+import com.extraleaderboard.token.TokenFactory;
 import com.extraleaderboard.model.nadeo.Audience;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
