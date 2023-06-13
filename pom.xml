@@ -13,6 +13,7 @@
         <module>ExtraLeaderboard_EJB</module>
         <module>ExtraLeaderboardAPI_EAR</module>
         <module>ExtraLeaderboard_TokenManager</module>
+        <module>ExtraLeaderboard_TokenManager_EAR</module>
     </modules>
 
     <properties>

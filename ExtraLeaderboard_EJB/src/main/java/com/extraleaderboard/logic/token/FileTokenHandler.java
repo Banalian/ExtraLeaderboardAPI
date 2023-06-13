@@ -28,6 +28,9 @@ public class FileTokenHandler implements ITokenHandler{
         try {
             List<String> lines = Files.readAllLines(Paths.get(TOKEN_FOLDER + audience.getAudienceName().toLowerCase() + ".token"), StandardCharsets.UTF_8);
 
+            if(lines.size() != 2) {
+                throw new IOException("The token file should only have two lines");
+            }
             // should only be two line, create the token
             NadeoToken token = new NadeoToken();
             token.setAccessToken(lines.get(0));

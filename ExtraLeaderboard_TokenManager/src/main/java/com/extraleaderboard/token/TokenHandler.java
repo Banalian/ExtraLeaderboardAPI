@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,9 +94,9 @@ public class TokenHandler implements ITokenHandler {
 
             // write the token to a file
             try {
-                Path path = Path.of(TokenHandler.TOKEN_FOLDER, audience.getAudienceName().toLowerCase() + ".token");
+                Path path = Paths.get(TOKEN_FOLDER + audience.getAudienceName().toLowerCase()+ ".token");
                 String content = token.getAccessToken() + "\n" + token.getRefreshToken();
-                Files.write(path, content.getBytes());
+                Files.writeString(path, content, Files.exists(path) ? StandardOpenOption.TRUNCATE_EXISTING : StandardOpenOption.CREATE);
             } catch (IOException e) {
                 LOGGER.error("Error while writing token to file", e);
             }
