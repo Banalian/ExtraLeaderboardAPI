@@ -53,7 +53,10 @@ public class RecordResource {
                                    @DefaultValue("false")
                                    @QueryParam("getplayercount") String getPlayerCount,
                                    @DefaultValue("false")
-                                   @QueryParam("getmapinfo") String getMapInfo) {
+                                   @QueryParam("getmapinfo") String getMapInfo,
+                                   @DefaultValue("false")
+                                   @QueryParam("isStunt") String isStunt
+                                   ) {
         // Transform all lists to List<Integer>
         List<Integer> scoreListInt = getListFromString(scoreList);
         List<Integer> playerListInt = getListFromString(playerList);
@@ -68,9 +71,10 @@ public class RecordResource {
         // Check if getPlayerCount is true
         boolean getPlayerCountBool = !"false".equals(getPlayerCount);
         boolean getMapInfoBool = !"false".equals(getMapInfo);
+        boolean isStuntMap = !"false".equals(isStunt);
 
         // Get the records
-        return recordBusiness.getRecords(mapId, scoreListInt, playerListInt, medalListMedal, positionListInt, getPlayerCountBool, getMapInfoBool);
+        return recordBusiness.getRecords(mapId, scoreListInt, playerListInt, medalListMedal, positionListInt, getPlayerCountBool, getMapInfoBool, isStuntMap);
     }
 
     /**

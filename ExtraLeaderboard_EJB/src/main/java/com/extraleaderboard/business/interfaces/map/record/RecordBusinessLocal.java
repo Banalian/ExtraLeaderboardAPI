@@ -24,10 +24,12 @@ public interface RecordBusinessLocal {
      *                      If any other value is given, it will be considered as true
      * @param getMapInfo    true or false, used to return the map information. Default is false.
      *                      If any other value is given, it will be considered as true
+     * @param isStuntMap    true or false, used to tell is the map uses the stunt gamemode. Default is false.
+     *                      If any other value is given, it will be considered as true
      * @return an JSON object with the requested information, with a list of records, and other potential information.
      * The returned JSON might also contain some warning or error messages
      * if the parameters are not valid or an error occurred
      */
-    UserResponse getRecords(String mapId, List<Integer> scoreList, List<Integer> playerList, List<Medal> medalList, List<Integer> positionList, boolean getPlayerInfo, boolean getMapInfo);
+    UserResponse getRecords(String mapId, List<Integer> scoreList, List<Integer> playerList, List<Medal> medalList, List<Integer> positionList, boolean getPlayerInfo, boolean getMapInfo, boolean isStuntMap);
 
 }

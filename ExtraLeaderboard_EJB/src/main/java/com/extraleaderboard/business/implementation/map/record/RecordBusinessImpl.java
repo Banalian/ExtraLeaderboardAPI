@@ -22,7 +22,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
      * {@inheritDoc}
      */
     @Override
-    public UserResponse getRecords(String mapId, List<Integer> scoreList, List<Integer> playerList, List<Medal> medalList, List<Integer> positionList, boolean getPlayerInfo, boolean getMapInfo) {
+    public UserResponse getRecords(String mapId, List<Integer> scoreList, List<Integer> playerList, List<Medal> medalList, List<Integer> positionList, boolean getPlayerInfo, boolean getMapInfo, boolean isStuntMap) {
         // First step : getting the map information if medals are requested
 
         String urlSurround = generateUrlSurround(mapId);
@@ -34,7 +34,7 @@ public class RecordBusinessImpl implements RecordBusinessLocal {
         if (getPlayerInfo) {
             Map<String, Object> queryParameters = new HashMap<>();
             queryParameters.put(ONLY_WORLD_PARAM_NAME, "true");
-            queryParameters.put(SCORE_PARAM_NAME, Integer.MAX_VALUE);
+            queryParameters.put(SCORE_PARAM_NAME, isStuntMap ? 1 : Integer.MAX_VALUE);
 
             Request request = new Request(Audience.NADEO_LIVE_SERVICES, urlSurround, queryParameters, Request.ResponseType.POSITION, EntryType.OTHER);
             requests.add(request);

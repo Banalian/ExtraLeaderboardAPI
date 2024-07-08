@@ -167,8 +167,9 @@ The returned UserResponse contains all theoretical positions and times correspon
 - player: list of players to get the time scores and positions of.
 - medal: list of medals to get the theoretical time scores and positions of.
 - position: list of positions to get the time scores of.
-- getplayercount: weather or not to return the amount of players that have a time on the map.
-- getmapinfo: weather or not to return general info about the map (the corresponding mapInfo object).
+- getplayercount: whether to return the amount of players that have a time on the map.
+- getmapinfo: whether to return general info about the map (the corresponding mapInfo object).
+- isStunt : whether the map uses the stunt gamemode.
 #### Response:
 - UserResponse containing information corresponding to the results of all queries.
 
