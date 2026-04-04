@@ -11,7 +11,7 @@ import java.util.Timer;
  */
 public class TokenFactory {
 
-    private static final TokenHandler TOKEN_HANDLER = new TokenHandler();
+    private static final NadeoServiceTokenHandler TOKEN_HANDLER = new NadeoServiceTokenHandler();
 
     private TokenFactory() {
     }
